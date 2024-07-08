@@ -2,15 +2,16 @@ use bevy_app::{App, AppExit, Plugins};
 use bevy_asset::AssetApp;
 use bevy_asset::AssetPlugin;
 use bevy_derive::{Deref, DerefMut};
-use bevy_ecs::schedule::NextState;
-use bevy_ecs::schedule::State;
-use bevy_ecs::schedule::States;
 use bevy_internal::{utils::default, MinimalPlugins};
 use bevy_pbr::MaterialPlugin;
 use bevy_pbr::StandardMaterial;
 use bevy_render::mesh::MeshPlugin;
 use bevy_render::render_resource::Shader;
 use bevy_render::texture::ImagePlugin;
+use bevy_state::state::FreelyMutableState;
+use bevy_state::state::NextState;
+use bevy_state::state::State;
+use bevy_state::state::States;
 use bevy_window::ExitCondition;
 use bevy_window::WindowPlugin;
 use rstest::{fixture, rstest};
@@ -20,13 +21,13 @@ pub struct TestApp(pub App);
 
 impl TestApp {
     pub fn get_state<S: States>(&self) -> Option<&S> {
-        self.world.get_resource::<State<S>>().map(|s| s.get())
+        self.world().get_resource::<State<S>>().map(|s| s.get())
     }
-    pub fn get_next_state<S: States>(&self) -> Option<&Option<S>> {
-        self.world.get_resource::<NextState<S>>().map(|s| &s.0)
+    pub fn get_next_state<S: FreelyMutableState>(&self) -> Option<&NextState<S>> {
+        self.world().get_resource::<NextState<S>>()
     }
-    pub fn set_next_state<S: States>(&mut self, next: S) -> Option<()> {
-        self.world
+    pub fn set_next_state<S: FreelyMutableState>(&mut self, next: S) -> Option<()> {
+        self.world_mut()
             .get_resource_mut::<NextState<S>>()
             .map(|mut s| s.set(next))
     }
@@ -34,7 +35,7 @@ impl TestApp {
 
 impl Drop for TestApp {
     fn drop(&mut self) {
-        self.world.send_event(AppExit);
+        self.world_mut().send_event(AppExit::Success);
     }
 }
 

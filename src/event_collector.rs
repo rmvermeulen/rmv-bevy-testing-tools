@@ -100,7 +100,7 @@ pub trait GetCollectedEvents {
 
 impl GetCollectedEvents for TestApp {
     fn get_collected_events<E: Event + Clone>(&self) -> Option<Vec<E>> {
-        self.world
+        self.world()
             .get_resource::<CollectedEvents<E>>()
             .map(|e| e.get().clone())
     }
