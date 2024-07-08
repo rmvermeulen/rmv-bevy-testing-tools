@@ -1,10 +1,10 @@
 #![feature(coverage_attribute)]
 
-pub mod testing;
-pub use testing::*;
+mod event_collector;
+pub use event_collector::*;
 
-pub use insta::{assert_debug_snapshot, assert_snapshot};
-pub use rstest::{fixture, rstest};
+mod fixtures;
+pub use fixtures::*;
 
 #[macro_export]
 macro_rules! set_snapshot_suffix {

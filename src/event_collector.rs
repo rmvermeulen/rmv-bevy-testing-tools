@@ -7,7 +7,7 @@ use bevy_ecs::{
     system::{ResMut, Resource},
 };
 
-use super::TestApp;
+use crate::TestApp;
 
 #[derive(Debug, Resource, Deref, DerefMut)]
 pub struct CollectedEvents<E>(Vec<E>);
@@ -109,7 +109,7 @@ impl GetCollectedEvents for TestApp {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::testing::{test_app, TestApp};
+    use crate::{test_app, TestApp};
     use bevy_app::Update;
     use bevy_ecs::event::EventWriter;
     use rstest::*;

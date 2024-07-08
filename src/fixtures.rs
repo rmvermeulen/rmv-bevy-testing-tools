@@ -1,5 +1,3 @@
-pub mod event_collector;
-
 use bevy_app::{App, AppExit, Plugins};
 use bevy_asset::AssetApp;
 use bevy_asset::AssetPlugin;
