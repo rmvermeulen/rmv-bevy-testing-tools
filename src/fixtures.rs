@@ -1,19 +1,11 @@
 use bevy_app::{App, AppExit, Plugins};
-use bevy_asset::AssetApp;
-use bevy_asset::AssetPlugin;
+use bevy_asset::{AssetApp, AssetPlugin};
 use bevy_derive::{Deref, DerefMut};
 use bevy_internal::{utils::default, MinimalPlugins};
-use bevy_pbr::MaterialPlugin;
-use bevy_pbr::StandardMaterial;
-use bevy_render::mesh::MeshPlugin;
-use bevy_render::render_resource::Shader;
-use bevy_render::texture::ImagePlugin;
-use bevy_state::state::FreelyMutableState;
-use bevy_state::state::NextState;
-use bevy_state::state::State;
-use bevy_state::state::States;
-use bevy_window::ExitCondition;
-use bevy_window::WindowPlugin;
+use bevy_pbr::{MaterialPlugin, StandardMaterial};
+use bevy_render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin};
+use bevy_state::state::{FreelyMutableState, NextState, State, States};
+use bevy_window::{ExitCondition, WindowPlugin};
 use rstest::{fixture, rstest};
 
 #[derive(Debug, Deref, DerefMut)]

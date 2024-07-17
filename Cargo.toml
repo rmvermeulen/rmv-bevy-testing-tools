@@ -4,7 +4,8 @@ version = "0.2.0"
 edition = "2021"
 
 [features]
-default = ["insta", "rstest", "speculoos"]
+default = []
+all = ["insta", "rstest", "speculoos"]
 insta = ["dep:insta"]
 rstest = ["dep:rstest", "dep:rstest_reuse"]
 speculoos = ["dep:speculoos"]
@@ -17,10 +18,14 @@ bevy_ecs = "0.14.0"
 bevy_internal = "0.14.0"
 bevy_pbr = "0.14.0"
 bevy_render = "0.14.0"
-bevy_sprite = "0.14.0"
 bevy_window = "0.14.0"
 bevy_state = "0.14.0"
 insta = { version = "1.39.0", optional = true }
 rstest = { version = "0.21.0", optional = true }
 rstest_reuse = { version = "0.7.0", optional = true }
 speculoos = { version = "0.11.0", optional = true }
+
+[dev-dependencies]
+rstest = "0.21.0"
+rstest_reuse = "0.7.0"
+speculoos = "0.11.0"

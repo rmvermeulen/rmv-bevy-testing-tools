@@ -7,6 +7,7 @@ use bevy_ecs::{
     system::{ResMut, Resource},
 };
 
+#[cfg(any(test, feature = "rstest"))]
 use crate::TestApp;
 
 #[derive(Debug, Resource, Deref, DerefMut)]
@@ -98,6 +99,7 @@ pub trait GetCollectedEvents {
     fn get_collected_events<E: Event + Clone>(&self) -> Option<Vec<E>>;
 }
 
+#[cfg(any(test, feature = "rstest"))]
 impl GetCollectedEvents for TestApp {
     fn get_collected_events<E: Event + Clone>(&self) -> Option<Vec<E>> {
         self.world()
