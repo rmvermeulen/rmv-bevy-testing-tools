@@ -240,25 +240,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
-name = "bevy-testing-tools"
-version = "0.2.0"
-dependencies = [
- "bevy_app",
- "bevy_asset",
- "bevy_derive",
- "bevy_ecs",
- "bevy_internal",
- "bevy_pbr",
- "bevy_render",
- "bevy_state",
- "bevy_window",
- "insta",
- "rstest",
- "rstest_reuse",
- "speculoos",
-]
-
-[[package]]
 name = "bevy_a11y"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2529,6 +2510,25 @@ name = "renderdoc-sys"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "19b30a45b0cd0bcca8037f3d0dc3421eaf95327a17cad11964fb8179b4fc4832"
+
+[[package]]
+name = "rmv-bevy-testing-tools"
+version = "0.2.0"
+dependencies = [
+ "bevy_app",
+ "bevy_asset",
+ "bevy_derive",
+ "bevy_ecs",
+ "bevy_internal",
+ "bevy_pbr",
+ "bevy_render",
+ "bevy_state",
+ "bevy_window",
+ "insta",
+ "rstest",
+ "rstest_reuse",
+ "speculoos",
+]
 
 [[package]]
 name = "ron"

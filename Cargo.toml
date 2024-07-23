@@ -2,6 +2,8 @@
 name = "rmv-bevy-testing-tools"
 version = "0.2.0"
 edition = "2021"
+license = "MIT"
+description = "Testing-utilities for integrating rstest, insta, and speculoos with bevy."
 
 [features]
 default = []
