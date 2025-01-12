@@ -31,6 +31,7 @@ impl Drop for TestApp {
     }
 }
 
+/// bevy's MinimalPlugins and a hidden window
 #[fixture]
 pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
     let mut app = App::new();
@@ -48,6 +49,7 @@ pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
     TestApp(app)
 }
 
+/// minimal_test_app + basic assets
 #[fixture]
 pub fn test_app<P>(
     #[default(())] plugins: impl Plugins<P>,
