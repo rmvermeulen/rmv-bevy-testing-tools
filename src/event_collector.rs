@@ -7,7 +7,9 @@ use bevy_ecs::{
     system::{ResMut, Resource},
 };
 
-#[cfg(any(test, feature = "rstest"))]
+mod traits;
+pub use traits::*;
+
 use crate::TestApp;
 
 #[derive(Debug, Resource, Deref, DerefMut)]
@@ -89,19 +91,6 @@ impl<E: Event + Clone + PartialEq> Plugin for EventFilter<E> {
     }
 }
 
-pub trait GetCollectedEvents {
-    fn get_collected_events<E: Event + Clone>(&self) -> Option<Vec<E>>;
-}
-
-#[cfg(any(test, feature = "rstest"))]
-impl GetCollectedEvents for TestApp {
-    fn get_collected_events<E: Event + Clone>(&self) -> Option<Vec<E>> {
-        self.world()
-            .get_resource::<CollectedEvents<E>>()
-            .map(|e| e.get().clone())
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -113,10 +102,10 @@ mod tests {
     use std::str::FromStr;
 
     #[rstest]
-    fn test_collected_events_default() {
+    fn test_collected_events_default_deref() {
         let collected_events: CollectedEvents<CmpEvent> = CollectedEvents::default();
         let v1: &Vec<_> = &*collected_events;
-        let v2: &Vec<_> = CollectedEvents::get(&collected_events);
+        let v2: &Vec<_> = collected_events.get();
         assert_that!(v1).is_equal_to(v2);
     }
 
