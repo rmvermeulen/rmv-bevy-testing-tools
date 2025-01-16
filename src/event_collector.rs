@@ -7,11 +7,6 @@ use bevy_ecs::{
     system::{ResMut, Resource},
 };
 
-mod traits;
-pub use traits::*;
-
-use crate::TestApp;
-
 #[derive(Debug, Resource, Deref, DerefMut)]
 pub struct CollectedEvents<E>(Vec<E>);
 
@@ -93,13 +88,15 @@ impl<E: Event + Clone + PartialEq> Plugin for EventFilter<E> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::{test_app, TestApp};
+    use std::str::FromStr;
+
     use bevy_app::Update;
     use bevy_ecs::event::EventWriter;
     use rstest::*;
     use speculoos::prelude::*;
-    use std::str::FromStr;
+
+    use super::*;
+    use crate::{test_app, EventCollectorTestApp, TestApp};
 
     #[rstest]
     fn test_collected_events_default_deref() {

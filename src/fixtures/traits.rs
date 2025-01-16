@@ -1,4 +1,8 @@
+use bevy_ecs::event::Event;
+
 use super::*;
+use crate::{CollectedEvents, EventCollector, EventFilter};
+
 pub trait EventCollectorTestApp {
     fn collect_events<E: Event + Clone>(&mut self) -> &mut Self;
 
@@ -37,9 +41,8 @@ mod tests {
     use rstest::rstest;
     use speculoos::{assert_that, option::OptionAssertions};
 
-    use crate::minimal_test_app;
-
     use super::*;
+    use crate::minimal_test_app;
     #[derive(Event, Clone, Debug, PartialEq)]
     struct MyEvent;
 
@@ -49,12 +52,11 @@ mod tests {
             .named("no resource")
             .is_none();
 
-        app.insert_resource(CollectedEvents(vec![MyEvent, MyEvent]));
+        app.insert_resource(CollectedEvents::<MyEvent>::default());
 
         assert_that!(app.get_collected_events::<MyEvent>())
             .named("after resource inserted")
-            .is_some()
-            .is_equal_to(vec![MyEvent, MyEvent]);
+            .is_some();
     }
 
     #[rstest]

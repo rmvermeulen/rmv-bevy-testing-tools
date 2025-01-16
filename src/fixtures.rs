@@ -8,6 +8,9 @@ use bevy_state::state::{FreelyMutableState, NextState, State, States};
 use bevy_window::{ExitCondition, WindowPlugin};
 use rstest::fixture;
 
+mod traits;
+pub use traits::*;
+
 #[derive(Debug, Deref, DerefMut)]
 pub struct TestApp(pub App);
 
@@ -72,7 +75,6 @@ mod tests {
         app::{AppExtStates, StatesPlugin},
         state::{NextState, States},
     };
-
     use rstest::{fixture, rstest};
     use speculoos::{assert_that, asserting, option::OptionAssertions, string::StrAssertions};
 
