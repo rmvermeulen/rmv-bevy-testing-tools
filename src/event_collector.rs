@@ -30,15 +30,9 @@ pub struct EventCollector<E>(PhantomData<E>)
 where
     E: Event + Clone;
 
-impl<E: Event + Clone> EventCollector<E> {
-    pub fn new() -> Self {
-        Self(PhantomData)
-    }
-}
-
 impl<E: Event + Clone> Default for EventCollector<E> {
     fn default() -> Self {
-        Self::new()
+        Self(PhantomData)
     }
 }
 
