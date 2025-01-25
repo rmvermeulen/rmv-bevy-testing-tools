@@ -9,10 +9,11 @@ repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 
 [features]
 default = []
-all = ["insta", "rstest", "speculoos"]
+all = ["insta", "rstest", "speculoos", "iter_tools"]
 insta = ["dep:insta"]
 rstest = ["dep:rstest", "dep:rstest_reuse"]
 speculoos = ["dep:speculoos"]
+iter_tools = ["dep:iter_tools"]
 
 [dependencies]
 bevy_app = "0.15.1"
@@ -28,6 +29,7 @@ insta = { version = "1.42.0", optional = true }
 rstest = { version = "0.24.0", optional = true }
 rstest_reuse = { version = "0.7.0", optional = true }
 speculoos = { version = "0.11.0", optional = true }
+iter_tools = { version = "0.24.0", optional = true }
 
 [dev-dependencies]
 rstest = "0.24.0"

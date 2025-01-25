@@ -23,17 +23,17 @@ impl<E: Event> Default for CollectedEvents<E> {
 }
 
 #[derive(Debug)]
-pub struct EventCollector<E>(PhantomData<E>)
+pub struct EventCollectorPlugin<E>(PhantomData<E>)
 where
     E: Event + Clone;
 
-impl<E: Event + Clone> Default for EventCollector<E> {
+impl<E: Event + Clone> Default for EventCollectorPlugin<E> {
     fn default() -> Self {
         Self(PhantomData)
     }
 }
 
-impl<E: Event + Clone> Plugin for EventCollector<E> {
+impl<E: Event + Clone> Plugin for EventCollectorPlugin<E> {
     #[cfg_attr(coverage_nightly, coverage(off))]
     fn build(&self, app: &mut App) {
         app.add_event::<E>()
@@ -48,7 +48,7 @@ impl<E: Event + Clone> Plugin for EventCollector<E> {
 }
 
 #[derive(Debug)]
-pub enum EventFilter<E>
+pub enum EventFilterPlugin<E>
 where
     E: Event + Clone + PartialEq,
 {
@@ -56,12 +56,12 @@ where
     AnyOf(Vec<E>),
 }
 
-impl<E: Event + Clone + PartialEq> Plugin for EventFilter<E> {
+impl<E: Event + Clone + PartialEq> Plugin for EventFilterPlugin<E> {
     #[cfg_attr(coverage_nightly, coverage(off))]
     fn build(&self, app: &mut App) {
         app.add_event::<E>().init_resource::<CollectedEvents<E>>();
         match &self {
-            EventFilter::Only(event) => {
+            EventFilterPlugin::Only(event) => {
                 app.add_systems(PostUpdate, {
                     let event = event.clone();
                     move |mut events: EventReader<E>, mut collection: ResMut<CollectedEvents<E>>| {
@@ -69,7 +69,7 @@ impl<E: Event + Clone + PartialEq> Plugin for EventFilter<E> {
                     }
                 });
             }
-            EventFilter::AnyOf(ref any_of_events) => {
+            EventFilterPlugin::AnyOf(ref any_of_events) => {
                 app.add_systems(PostUpdate, {
                     let any_of_events = any_of_events.clone();
                     move |mut events: EventReader<E>, mut collection: ResMut<CollectedEvents<E>>| {
@@ -96,7 +96,7 @@ mod tests {
     use speculoos::prelude::*;
 
     use super::*;
-    use crate::{test_app, EventCollectorTestApp, TestApp};
+    use crate::{app::TestApp, fixtures::test_app, traits::CollectEvents};
 
     #[rstest]
     fn test_collected_events_default_deref() {
@@ -115,10 +115,12 @@ mod tests {
     #[case(10)]
     fn test_event_collector_plugin(
         #[from(test_app)]
-        #[with(EventCollector::<NonEqEvent>::default())]
+        #[with(EventCollectorPlugin::<NonEqEvent>::default())]
         mut app: TestApp,
         #[case] emit_count: usize,
     ) {
+        use crate::traits::CollectEvents;
+
         app.add_systems(Update, move |mut writer: EventWriter<NonEqEvent>| {
             for _ in 0..emit_count {
                 writer.send(NonEqEvent);
@@ -148,7 +150,7 @@ mod tests {
         #[case] only_event: CmpEvent,
         #[case] expected_events: EventList<CmpEvent>,
         #[from(test_app)]
-        #[with(EventFilter::Only(only_event.clone()))]
+        #[with(EventFilterPlugin::Only(only_event.clone()))]
         mut app: TestApp,
     ) {
         app.add_systems(Update, move |mut writer: EventWriter<CmpEvent>| {
@@ -182,9 +184,11 @@ mod tests {
         #[case] any_of_events: EventList<CmpEvent>,
         #[case] expected_events: EventList<CmpEvent>,
         #[from(test_app)]
-        #[with(EventFilter::AnyOf((*any_of_events).clone()))]
+        #[with(EventFilterPlugin::AnyOf((*any_of_events).clone()))]
         mut app: TestApp,
     ) {
+        use crate::traits::CollectEvents;
+
         app.add_systems(Update, move |mut writer: EventWriter<CmpEvent>| {
             for e in &*events_to_emit {
                 writer.send(e.clone());
