@@ -1,38 +1,12 @@
-use bevy_app::{App, AppExit, Plugins};
+use bevy_app::{App, Plugins};
 use bevy_asset::{AssetApp, AssetPlugin};
-use bevy_derive::{Deref, DerefMut};
 use bevy_internal::{utils::default, MinimalPlugins};
 use bevy_pbr::{MaterialPlugin, StandardMaterial};
 use bevy_render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin};
-use bevy_state::state::{FreelyMutableState, NextState, State, States};
 use bevy_window::{ExitCondition, WindowPlugin};
 use rstest::fixture;
 
-mod traits;
-pub use traits::*;
-
-#[derive(Debug, Deref, DerefMut)]
-pub struct TestApp(pub App);
-
-impl TestApp {
-    pub fn get_state<S: States>(&self) -> Option<&S> {
-        self.world().get_resource::<State<S>>().map(|s| s.get())
-    }
-    pub fn get_next_state<S: FreelyMutableState>(&self) -> Option<&NextState<S>> {
-        self.world().get_resource::<NextState<S>>()
-    }
-    pub fn set_next_state<S: FreelyMutableState>(&mut self, next: S) -> Option<()> {
-        self.world_mut()
-            .get_resource_mut::<NextState<S>>()
-            .map(|mut s| s.set(next))
-    }
-}
-
-impl Drop for TestApp {
-    fn drop(&mut self) {
-        self.world_mut().send_event(AppExit::Success);
-    }
-}
+use crate::app::TestApp;
 
 /// bevy's MinimalPlugins and a hidden window
 #[fixture]
@@ -78,7 +52,7 @@ mod tests {
     use rstest::{fixture, rstest};
     use speculoos::{assert_that, asserting, option::OptionAssertions, string::StrAssertions};
 
-    use crate::{minimal_test_app, test_app, TestApp};
+    use crate::fixtures::{minimal_test_app, test_app, TestApp};
 
     #[rstest]
     fn test_minimal_app_is_created(mut minimal_test_app: TestApp) {

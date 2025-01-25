@@ -1,7 +1,9 @@
 use bevy_ecs::event::Event;
 
-use super::*;
-use crate::{CollectedEvents, EventCollector, EventFilter};
+use crate::{
+    events::{CollectedEvents, EventCollector, EventFilter},
+    TestApp,
+};
 
 pub trait EventCollectorTestApp {
     fn collect_events<E: Event + Clone>(&mut self) -> &mut Self;
@@ -42,7 +44,7 @@ mod tests {
     use speculoos::{assert_that, option::OptionAssertions};
 
     use super::*;
-    use crate::minimal_test_app;
+    use crate::fixtures::minimal_test_app;
     #[derive(Event, Clone, Debug, PartialEq)]
     struct MyEvent;
 

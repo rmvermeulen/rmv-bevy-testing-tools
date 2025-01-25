@@ -1,12 +1,16 @@
 #![feature(coverage_attribute)]
 
-mod event_collector;
-pub use event_collector::*;
-
+pub mod app;
+pub mod events;
 #[cfg(any(test, feature = "rstest"))]
-mod fixtures;
+pub mod fixtures;
+pub mod traits;
+
+pub use app::*;
+pub use events::*;
 #[cfg(any(test, feature = "rstest"))]
 pub use fixtures::*;
+pub use traits::*;
 
 #[cfg(feature = "insta")]
 #[macro_export]
