@@ -7,6 +7,7 @@ where
     fn is_contained_in(&mut self, collection: &[T]);
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl<T> IsContainedIn<T> for Spec<'_, T>
 where
     T: PartialEq + std::fmt::Debug,

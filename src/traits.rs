@@ -3,8 +3,6 @@ use bevy_ecs::{
     query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
 };
 use bevy_state::state::{FreelyMutableState, NextState, States};
-#[cfg(feature = "iter_tools")]
-use iter_tools::Itertools;
 
 pub trait CollectEvents {
     fn collect_events<E: Event + Clone>(&mut self) -> &mut Self;
