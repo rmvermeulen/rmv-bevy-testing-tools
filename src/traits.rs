@@ -1,11 +1,10 @@
 use bevy_ecs::{
     event::{Event, SendBatchIds},
-    query::{QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
+    query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
 };
+use bevy_state::state::{FreelyMutableState, NextState, States};
 #[cfg(feature = "iter_tools")]
 use iter_tools::Itertools;
-
-use crate::app::TestApp;
 
 pub trait CollectEvents {
     fn collect_events<E: Event + Clone>(&mut self) -> &mut Self;
@@ -26,6 +25,18 @@ pub trait SendEvents {
     ) -> Option<SendBatchIds<E>>;
 }
 
+pub trait ManageState {
+    fn get_state<S: States>(&self) -> Option<&S>;
+    fn get_next_state<S: FreelyMutableState>(&self) -> Option<&NextState<S>>;
+    fn set_next_state<S: FreelyMutableState>(&mut self, next: S) -> Option<()>;
+}
+
+pub trait BasicQuery {
+    fn query_any<'a, Q, C>(&mut self) -> bool
+    where
+        Q: QueryData<Item<'a> = C>;
+}
+
 pub trait ImmediateQuery {
     fn query_single<D>(&mut self) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
     where
@@ -36,48 +47,14 @@ pub trait ImmediateQuery {
     where
         D: ReadOnlyQueryData,
         F: QueryFilter;
-    fn query_collect<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
+    fn query_collect<D, C>(&mut self) -> C
     where
-        D: ReadOnlyQueryData;
+        D: ReadOnlyQueryData,
+        for<'a> C: std::iter::FromIterator<<D as bevy_ecs::query::WorldQuery>::Item<'a>>;
     #[cfg(feature = "iter_tools")]
     fn query_vec<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
     where
         D: ReadOnlyQueryData;
-}
-
-impl ImmediateQuery for TestApp {
-    fn query_single<D>(&mut self) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
-    where
-        D: ReadOnlyQueryData,
-    {
-        let mut query = self.world_mut().query::<D>();
-        query.get_single(self.world_mut())
-    }
-    fn query_single_filtered<D, F>(
-        &mut self,
-    ) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
-    where
-        D: ReadOnlyQueryData,
-        F: QueryFilter,
-    {
-        let mut query = self.world_mut().query_filtered::<D, F>();
-        query.get_single(self.world_mut())
-    }
-    #[cfg(feature = "iter_tools")]
-    fn query_vec<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
-    where
-        D: ReadOnlyQueryData,
-    {
-        let mut query = self.world_mut().query::<D>();
-        query.iter(self.world_mut()).collect_vec()
-    }
-
-    fn query_collect<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
-    where
-        D: ReadOnlyQueryData,
-    {
-        todo!()
-    }
 }
 
 #[cfg(test)]
@@ -86,7 +63,7 @@ mod tests {
     use speculoos::{assert_that, option::OptionAssertions};
 
     use super::*;
-    use crate::{events::CollectedEvents, fixtures::minimal_test_app};
+    use crate::{app::TestApp, events::CollectedEvents, fixtures::minimal_test_app};
     #[derive(Event, Clone, Debug, PartialEq)]
     struct MyEvent;
 
