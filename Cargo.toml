@@ -9,7 +9,6 @@ repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 
 [features]
 default = []
-test = ["all"]
 all = ["insta", "rstest", "speculoos", "iter_tools"]
 insta = ["dep:insta"]
 rstest = ["dep:rstest", "dep:rstest_reuse"]

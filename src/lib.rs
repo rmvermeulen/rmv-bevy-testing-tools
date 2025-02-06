@@ -4,7 +4,7 @@ pub mod app;
 #[cfg(feature = "speculoos")]
 pub mod assertions;
 pub mod events;
-#[cfg(feature = "rstest")]
+#[cfg(any(test, feature = "rstest"))]
 pub mod fixtures;
 pub mod traits;
 
