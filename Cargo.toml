@@ -3,7 +3,7 @@ name = "rmv-bevy-testing-tools"
 version = "0.5.1"
 edition = "2021"
 license = "MIT"
-description = "Testing-utilities for integrating rstest, insta, and speculoos with bevy."
+description = "Write simple tests for bevy systems, using rstest, insta, and speculoos."
 readme = "Readme.md"
 repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 
