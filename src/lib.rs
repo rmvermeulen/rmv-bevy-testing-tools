@@ -1,5 +1,7 @@
 #![feature(coverage_attribute)]
 
+// TODO: setup tags for different versions of bevy
+
 pub mod app;
 #[cfg(feature = "speculoos")]
 pub mod assertions;
