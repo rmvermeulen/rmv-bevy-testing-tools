@@ -11,7 +11,7 @@ use bevy_state::state::{FreelyMutableState, NextState, State, States};
 
 use crate::{
     events::{CollectedEvents, EventCollectorPlugin, EventFilterPlugin},
-    traits::{AdvanceTime, BasicQuery, CollectEvents, ImmediateQuery, ManageState, SendEvents},
+    traits::{BasicQuery, CollectEvents, ImmediateQuery, ManageState, SendEvents, TimeControls},
 };
 
 #[derive(Debug, Deref, DerefMut)]
@@ -139,17 +139,37 @@ impl ImmediateQuery for TestApp {
     }
 }
 
-impl AdvanceTime for TestApp {
-    fn advance_time_by(app: &mut TestApp, duration: Duration) {
-        app.world_mut()
+impl TimeControls for TestApp {
+    fn is_paused(&self) -> bool {
+        self.world()
+            .get_resource::<Time<Virtual>>()
+            .unwrap()
+            .is_paused()
+    }
+    fn pause(&mut self) {
+        self.world_mut()
+            .get_resource_mut::<Time<Virtual>>()
+            .unwrap()
+            .pause()
+    }
+    fn unpause(&mut self) {
+        self.world_mut()
+            .get_resource_mut::<Time<Virtual>>()
+            .unwrap()
+            .unpause()
+    }
+    fn advance_time_by(&mut self, duration: Duration) {
+        self.world_mut()
             .get_resource_mut::<Time<Virtual>>()
             .unwrap()
             .advance_by(duration);
+        self.update();
     }
-    fn advance_time_to(app: &mut TestApp, duration: Duration) {
-        app.world_mut()
+    fn advance_time_to(&mut self, duration: Duration) {
+        self.world_mut()
             .get_resource_mut::<Time<Virtual>>()
             .unwrap()
             .advance_to(duration);
+        self.update();
     }
 }

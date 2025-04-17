@@ -35,9 +35,9 @@ pub mod prelude {
 mod tests {
     use bevy_ecs::event::Event;
     use bevy_state::state::States;
-    use rstest::rstest;
+    
 
-    use super::prelude::*;
+    
 
     #[derive(Event, Default, Debug, Copy, Clone)]
     struct MyEvent;
