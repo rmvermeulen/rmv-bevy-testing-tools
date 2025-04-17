@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use bevy_ecs::{
     event::{Event, SendBatchIds},
     query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
@@ -53,6 +55,11 @@ pub trait ImmediateQuery {
     fn query_vec<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
     where
         D: ReadOnlyQueryData;
+}
+
+pub trait AdvanceTime {
+    fn advance_time_to(app: &mut Self, duration: Duration);
+    fn advance_time_by(app: &mut Self, duration: Duration);
 }
 
 #[cfg(test)]

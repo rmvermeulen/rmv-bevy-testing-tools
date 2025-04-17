@@ -1,14 +1,17 @@
+use std::time::Duration;
+
 use bevy_app::{App, AppExit};
 use bevy_derive::{Deref, DerefMut};
 use bevy_ecs::{
     event::{Event, SendBatchIds},
     query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
 };
+use bevy_internal::time::{Time, Virtual};
 use bevy_state::state::{FreelyMutableState, NextState, State, States};
 
 use crate::{
     events::{CollectedEvents, EventCollectorPlugin, EventFilterPlugin},
-    traits::{BasicQuery, CollectEvents, ImmediateQuery, ManageState, SendEvents},
+    traits::{AdvanceTime, BasicQuery, CollectEvents, ImmediateQuery, ManageState, SendEvents},
 };
 
 #[derive(Debug, Deref, DerefMut)]
@@ -133,5 +136,20 @@ impl ImmediateQuery for TestApp {
         let mut query = self.world_mut().query::<D>();
         let result = query.iter(self.world_mut()).collect::<C>();
         result
+    }
+}
+
+impl AdvanceTime for TestApp {
+    fn advance_time_by(app: &mut TestApp, duration: Duration) {
+        app.world_mut()
+            .get_resource_mut::<Time<Virtual>>()
+            .unwrap()
+            .advance_by(duration);
+    }
+    fn advance_time_to(app: &mut TestApp, duration: Duration) {
+        app.world_mut()
+            .get_resource_mut::<Time<Virtual>>()
+            .unwrap()
+            .advance_to(duration);
     }
 }
