@@ -30,14 +30,15 @@ pub mod prelude {
     pub use super::{app::*, events::*, traits::*};
 }
 
+#[doc = include_str!("../Readme.md")]
+#[cfg(doctest)]
+pub struct ReadmeDoctests;
+
 #[cfg(test)]
 #[cfg_attr(coverage_nightly, coverage(off))]
 mod tests {
     use bevy_ecs::event::Event;
     use bevy_state::state::States;
-    
-
-    
 
     #[derive(Event, Default, Debug, Copy, Clone)]
     struct MyEvent;
