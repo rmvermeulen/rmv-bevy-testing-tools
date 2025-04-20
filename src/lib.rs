@@ -7,6 +7,7 @@ pub mod assertions;
 pub mod events;
 #[cfg(any(test, feature = "rstest"))]
 pub mod fixtures;
+#[allow(unused_imports)]
 pub mod test_app;
 pub mod traits;
 

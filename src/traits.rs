@@ -1,72 +1,23 @@
-use std::time::Duration;
+use bevy_ecs::event::Event;
 
-use bevy_ecs::{
-    event::{Event, SendBatchIds},
-    query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
-};
-use bevy_state::state::{FreelyMutableState, NextState, States};
+mod basic_query;
+mod collect_events;
+mod immediate_query;
+mod manage_state;
+mod send_events;
+mod time_controls;
 
-pub trait CollectEvents {
-    fn collect_events<E: Event + Clone>(&mut self) -> &mut Self;
-
-    fn collect_events_only<E: Event + Clone + PartialEq>(&mut self, event: E) -> &mut Self;
-
-    fn collect_events_any_of<E: Event + Clone + PartialEq>(&mut self, events: &[E]) -> &mut Self;
-
-    fn get_collected_events<E: Event + Clone>(&self) -> Option<Vec<E>>;
-}
-
-pub trait SendEvents {
-    fn send_event_default<E: Event + Default>(&mut self);
-    fn send_event<E: Event>(&mut self, event: E);
-    fn send_event_batch<E: Event>(
-        &mut self,
-        events: impl IntoIterator<Item = E>,
-    ) -> Option<SendBatchIds<E>>;
-}
-
-pub trait ManageState {
-    fn get_state<S: States>(&self) -> Option<&S>;
-    fn get_next_state<S: FreelyMutableState>(&self) -> Option<&NextState<S>>;
-    fn set_next_state<S: FreelyMutableState>(&mut self, next: S) -> Option<()>;
-}
-
-pub trait BasicQuery {
-    fn query_any<'a, Q, C>(&mut self) -> bool
-    where
-        Q: QueryData<Item<'a> = C>;
-}
-
-pub trait ImmediateQuery {
-    fn query_single<D>(&mut self) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
-    where
-        D: ReadOnlyQueryData;
-    fn query_single_filtered<D, F>(
-        &mut self,
-    ) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
-    where
-        D: ReadOnlyQueryData,
-        F: QueryFilter;
-    fn query_collect<D, C>(&mut self) -> C
-    where
-        D: ReadOnlyQueryData,
-        for<'a> C: std::iter::FromIterator<<D as bevy_ecs::query::WorldQuery>::Item<'a>>;
-    #[cfg(feature = "iter_tools")]
-    fn query_vec<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
-    where
-        D: ReadOnlyQueryData;
-}
-
-pub trait TimeControls {
-    fn is_paused(&self) -> bool;
-    fn pause(&mut self);
-    fn unpause(&mut self);
-    fn advance_time_to(&mut self, duration: Duration);
-    fn advance_time_by(&mut self, duration: Duration);
-}
+pub use basic_query::*;
+pub use collect_events::*;
+pub use immediate_query::*;
+pub use manage_state::*;
+pub use send_events::*;
+pub use time_controls::*;
 
 #[cfg(test)]
 mod tests {
+    use std::time::Duration;
+
     use bevy_internal::time::Time;
     use rstest::rstest;
     use speculoos::{assert_that, option::OptionAssertions, prelude::BooleanAssertions};
