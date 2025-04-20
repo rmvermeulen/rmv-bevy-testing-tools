@@ -988,9 +988,9 @@ dependencies = [
 
 [[package]]
 name = "clone_dyn_types"
-version = "0.29.0"
+version = "0.30.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22ad929734a18d4985029dcc1a8e7a110149e65d3c662b06c6f048ea49457335"
+checksum = "363c0f2e5169805c5a3283f91fafde8591b8f7be3877c1f96f2bb582786932ee"
 
 [[package]]
 name = "codespan-reporting"
@@ -1609,9 +1609,9 @@ dependencies = [
 
 [[package]]
 name = "iter_tools"
-version = "0.27.0"
+version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5878204d9e433e29217faea2bbd73c7de955d8263107b4afca09085af87b3d4"
+checksum = "42a8eec9f078a8d307364c87ca70e2dee15547800476e5c68977e346b835e3d0"
 dependencies = [
  "clone_dyn_types",
  "itertools 0.11.0",
