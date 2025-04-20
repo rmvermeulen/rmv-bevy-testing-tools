@@ -2,12 +2,12 @@
 
 // TODO: setup tags for different versions of bevy
 
-pub mod app;
 #[cfg(feature = "speculoos")]
 pub mod assertions;
 pub mod events;
 #[cfg(any(test, feature = "rstest"))]
 pub mod fixtures;
+pub mod test_app;
 pub mod traits;
 
 #[cfg(feature = "insta")]
@@ -27,7 +27,7 @@ pub mod prelude {
     pub use super::fixtures::*;
     #[cfg(feature = "insta")]
     pub use super::set_snapshot_suffix;
-    pub use super::{app::*, events::*, traits::*};
+    pub use super::{events::*, test_app::*, traits::*};
 }
 
 #[doc = include_str!("../Readme.md")]

@@ -96,7 +96,7 @@ mod tests {
     use speculoos::prelude::*;
 
     use super::*;
-    use crate::{app::TestApp, fixtures::test_app, traits::CollectEvents};
+    use crate::{fixtures::test_app, test_app::TestApp, traits::CollectEvents};
 
     #[rstest]
     fn test_collected_events_default_deref() {

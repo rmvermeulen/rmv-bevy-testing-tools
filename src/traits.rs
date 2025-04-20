@@ -72,7 +72,7 @@ mod tests {
     use speculoos::{assert_that, option::OptionAssertions, prelude::BooleanAssertions};
 
     use super::*;
-    use crate::{app::TestApp, events::CollectedEvents, fixtures::minimal_test_app};
+    use crate::{events::CollectedEvents, fixtures::minimal_test_app, test_app::TestApp};
 
     #[derive(Event, Clone, Debug, PartialEq)]
     struct MyEvent;

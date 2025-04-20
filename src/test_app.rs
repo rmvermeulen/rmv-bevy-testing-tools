@@ -31,6 +31,7 @@ impl TestApp {
     }
 }
 
+// NOTE: this is now also handled by feature `bevy/bevy_ci_testing`
 impl Drop for TestApp {
     fn drop(&mut self) {
         self.world_mut().send_event(AppExit::Success);

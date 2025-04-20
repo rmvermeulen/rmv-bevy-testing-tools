@@ -6,7 +6,7 @@ use bevy_render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugi
 use bevy_window::{ExitCondition, WindowPlugin};
 use rstest::fixture;
 
-use crate::app::TestApp;
+use crate::test_app::TestApp;
 /// bevy's MinimalPlugins and a hidden window
 #[fixture]
 pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
