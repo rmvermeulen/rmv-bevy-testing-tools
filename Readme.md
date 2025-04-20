@@ -2,7 +2,7 @@
 
 ## TestApp
 
-```rs
+```rust
 use super::{MySimplePlugin, MyGamePlugin};
 use rstest::rstest;
 use rmv_bevy_testing_tools::{test_app, TestApp};
@@ -44,7 +44,7 @@ pub fn my_configurable_custom_test_app<P>(
 
 ## EventCollector
 
-```rs
+```rust
 
 use rmv_bevy_testing_tools::{test_app, EventCollector, GetCollectedEvents, TestApp};
 use rstest::rstest;
