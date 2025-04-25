@@ -1,47 +1,47 @@
-use bevy_ecs::query::{QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery};
+use bevy_ecs::query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData};
 
 use crate::prelude::TestApp;
 
 pub trait ImmediateQuery {
-    fn query_single<D>(&mut self) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
+    fn query_single<D>(&mut self) -> Result<<D as QueryData>::Item<'_>, QuerySingleError>
     where
         D: ReadOnlyQueryData;
     fn query_single_filtered<D, F>(
         &mut self,
-    ) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
+    ) -> Result<<D as QueryData>::Item<'_>, QuerySingleError>
     where
         D: ReadOnlyQueryData,
         F: QueryFilter;
     fn query_collect<D, C>(&mut self) -> C
     where
         D: ReadOnlyQueryData,
-        for<'a> C: std::iter::FromIterator<<D as bevy_ecs::query::WorldQuery>::Item<'a>>;
+        for<'a> C: std::iter::FromIterator<<D as QueryData>::Item<'a>>;
     #[cfg(feature = "iter_tools")]
-    fn query_vec<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
+    fn query_vec<D>(&mut self) -> Vec<<D as QueryData>::Item<'_>>
     where
         D: ReadOnlyQueryData;
 }
 
 impl ImmediateQuery for TestApp {
-    fn query_single<D>(&mut self) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
+    fn query_single<D>(&mut self) -> Result<<D as QueryData>::Item<'_>, QuerySingleError>
     where
         D: ReadOnlyQueryData,
     {
         let mut query = self.world_mut().query::<D>();
-        query.get_single(self.world_mut())
+        query.single(self.world_mut())
     }
     fn query_single_filtered<D, F>(
         &mut self,
-    ) -> Result<<D as WorldQuery>::Item<'_>, QuerySingleError>
+    ) -> Result<<D as QueryData>::Item<'_>, QuerySingleError>
     where
         D: ReadOnlyQueryData,
         F: QueryFilter,
     {
         let mut query = self.world_mut().query_filtered::<D, F>();
-        query.get_single(self.world_mut())
+        query.single(self.world_mut())
     }
     #[cfg(feature = "iter_tools")]
-    fn query_vec<D>(&mut self) -> Vec<<D as WorldQuery>::Item<'_>>
+    fn query_vec<D>(&mut self) -> Vec<<D as QueryData>::Item<'_>>
     where
         D: ReadOnlyQueryData,
     {
@@ -54,7 +54,7 @@ impl ImmediateQuery for TestApp {
     fn query_collect<D, C>(&mut self) -> C
     where
         D: ReadOnlyQueryData,
-        for<'a> C: std::iter::FromIterator<<D as bevy_ecs::query::WorldQuery>::Item<'a>>,
+        for<'a> C: std::iter::FromIterator<<D as bevy_ecs::query::QueryData>::Item<'a>>,
     {
         let mut query = self.world_mut().query::<D>();
         let result = query.iter(self.world_mut()).collect::<C>();

@@ -28,7 +28,7 @@ pub mod prelude {
     pub use super::fixtures::*;
     #[cfg(feature = "insta")]
     pub use super::set_snapshot_suffix;
-    pub use super::{events::*, test_app::*, traits::*};
+    pub use super::{events::*, test_app, test_app::*, traits::*};
 }
 
 #[doc = include_str!("../Readme.md")]
@@ -40,6 +40,8 @@ pub struct ReadmeDoctests;
 mod tests {
     use bevy_ecs::event::Event;
     use bevy_state::state::States;
+    #[cfg(feature = "rstest")]
+    use rstest::rstest;
 
     #[derive(Event, Default, Debug, Copy, Clone)]
     struct MyEvent;
@@ -57,6 +59,9 @@ mod tests {
             return;
         }
         use bevy_state::app::AppExtStates;
+        use rstest::rstest;
+
+        use crate::test_app;
 
         app.collect_events::<MyEvent>()
             .send_event_default::<MyEvent>();
@@ -81,6 +86,8 @@ mod tests {
             return;
         }
         use speculoos::assert_that;
+
+        use crate::prelude::IsContainedIn;
 
         let items = vec![1, 2, 3];
         assert_that!(1).is_contained_in(&items);

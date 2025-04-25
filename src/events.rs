@@ -4,7 +4,8 @@ use bevy_app::{App, Plugin, PostUpdate};
 use bevy_derive::{Deref, DerefMut};
 use bevy_ecs::{
     event::{Event, EventReader},
-    system::{ResMut, Resource},
+    resource::Resource,
+    system::ResMut,
 };
 
 #[derive(Debug, Resource, Deref, DerefMut)]
