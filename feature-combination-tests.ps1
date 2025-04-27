@@ -56,24 +56,25 @@ foreach ($items in $feature_groups)
     $features = $items -join ","
     if ($Check)
     {
-        Write-Host "Running check for features: '$features'"
+        Write-Host "check ($features)"
         $output = cargo check --no-default-features --features $features 2>&1
         if (! $?)
         {
             Write-Output $output
-            Write-Error "check failed for '$features'"
+            Write-Host "check failed ($features)"
             exit 1
         }
     }
     if ($Test)
     {
-        Write-Host "Running test for features: '$features'"
+        Write-Host "tests ($features)"
         $output = cargo test --no-default-features --features $features 2>&1
         if (! $?)
         {
             Write-Output $output
-            Write-Error "test failed for '$features'"
+            Write-Host "tests failed ($features)"
             exit 1
         }
     }
+    Write-Host "passed"
 }
