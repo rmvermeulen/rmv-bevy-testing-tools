@@ -1,11 +1,13 @@
 use std::marker::PhantomData;
 
-use bevy_app::{App, Plugin, PostUpdate};
-use bevy_derive::{Deref, DerefMut};
-use bevy_ecs::{
-    event::{Event, EventReader},
-    resource::Resource,
-    system::ResMut,
+use bevy::{
+    app::{App, Plugin, PostUpdate},
+    ecs::{
+        event::{Event, EventReader},
+        resource::Resource,
+        system::ResMut,
+    },
+    prelude::{Deref, DerefMut},
 };
 
 #[derive(Debug, Resource, Deref, DerefMut)]
@@ -91,13 +93,12 @@ impl<E: Event + Clone + PartialEq> Plugin for EventFilterPlugin<E> {
 mod tests {
     use std::str::FromStr;
 
-    use bevy_app::Update;
-    use bevy_ecs::event::EventWriter;
+    use bevy::{app::Update, ecs::event::EventWriter};
     use rstest::*;
     use speculoos::prelude::*;
 
     use super::*;
-    use crate::{fixtures::test_app, test_app::TestApp, traits::CollectEvents};
+    use crate::{fixtures::minimal_test_app, test_app::TestApp, traits::CollectEvents};
 
     #[rstest]
     fn test_collected_events_default_deref() {
@@ -115,7 +116,7 @@ mod tests {
     #[case(1)]
     #[case(10)]
     fn test_event_collector_plugin(
-        #[from(test_app)]
+        #[from(minimal_test_app)]
         #[with(EventCollectorPlugin::<NonEqEvent>::default())]
         mut app: TestApp,
         #[case] emit_count: usize,
@@ -150,7 +151,7 @@ mod tests {
         #[case] events_to_emit: EventList<CmpEvent>,
         #[case] only_event: CmpEvent,
         #[case] expected_events: EventList<CmpEvent>,
-        #[from(test_app)]
+        #[from(minimal_test_app)]
         #[with(EventFilterPlugin::Only(only_event.clone()))]
         mut app: TestApp,
     ) {
@@ -184,7 +185,7 @@ mod tests {
         #[case] events_to_emit: EventList<CmpEvent>,
         #[case] any_of_events: EventList<CmpEvent>,
         #[case] expected_events: EventList<CmpEvent>,
-        #[from(test_app)]
+        #[from(minimal_test_app)]
         #[with(EventFilterPlugin::AnyOf((*any_of_events).clone()))]
         mut app: TestApp,
     ) {

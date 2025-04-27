@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use bevy_internal::time::{Time, Virtual};
+use bevy::prelude::{Time, Virtual};
 
 use crate::prelude::TestApp;
 

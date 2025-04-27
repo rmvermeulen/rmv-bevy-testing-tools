@@ -1,13 +1,15 @@
-use bevy_app::{App, Plugins};
-use bevy_asset::{AssetApp, AssetPlugin};
-use bevy_internal::{utils::default, MinimalPlugins};
-use bevy_pbr::{MaterialPlugin, StandardMaterial};
-use bevy_render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin};
-use bevy_window::{ExitCondition, WindowPlugin};
+use bevy::{
+    app::{App, Plugins},
+    prelude::MinimalPlugins,
+    utils::default,
+    window::{ExitCondition, WindowPlugin},
+};
 use rstest::fixture;
 
 use crate::test_app::TestApp;
-/// bevy's MinimalPlugins and a hidden window
+
+/// bevy's [`MinimalPlugins`] and a hidden window
+#[cfg(any(test, feature = "rstest"))]
 #[fixture]
 pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
     let mut app = App::new();
@@ -26,11 +28,17 @@ pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
 }
 
 /// minimal_test_app + basic assets
+#[cfg(feature = "rstest")]
 #[fixture]
 pub fn test_app<P>(
     #[default(())] plugins: impl Plugins<P>,
     #[from(minimal_test_app)] mut app: TestApp,
 ) -> TestApp {
+    use bevy::{
+        asset::{AssetApp, AssetPlugin},
+        pbr::{MaterialPlugin, StandardMaterial},
+        render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin},
+    };
     app.add_plugins(AssetPlugin::default())
         .init_asset::<Shader>()
         .add_plugins((
@@ -44,14 +52,19 @@ pub fn test_app<P>(
 
 #[cfg(test)]
 mod tests {
-    use bevy_state::{
+    #[cfg(feature = "manage_state")]
+    use bevy::state::{
         app::{AppExtStates, StatesPlugin},
         state::{NextState, States},
     };
     use rstest::{fixture, rstest};
     use speculoos::{assert_that, asserting, option::OptionAssertions, string::StrAssertions};
 
-    use crate::fixtures::{minimal_test_app, test_app, TestApp};
+    #[cfg(feature = "rstest")]
+    use crate::fixtures::test_app;
+    use crate::fixtures::{minimal_test_app, TestApp};
+    #[cfg(feature = "manage_state")]
+    use crate::traits::ManageState;
 
     #[rstest]
     fn test_minimal_app_is_created(mut minimal_test_app: TestApp) {
@@ -59,18 +72,21 @@ mod tests {
         drop(minimal_test_app);
     }
 
+    #[cfg(feature = "rstest")]
     #[rstest]
     fn test_test_app_is_created(mut test_app: TestApp) {
         test_app.update();
         drop(test_app);
     }
 
+    #[cfg(feature = "manage_state")]
     #[derive(States, Debug, Copy, Clone, PartialEq, Eq, Hash)]
     enum MyState {
         First,
         Second,
     }
 
+    #[cfg(feature = "manage_state")]
     #[fixture]
     fn states_app(
         #[from(minimal_test_app)]
@@ -80,6 +96,7 @@ mod tests {
         app
     }
 
+    #[cfg(feature = "manage_state")]
     #[rstest]
     fn test_app_get_state(#[from(states_app)] mut app: TestApp) {
         asserting!("TestApp::get_state() before MyState exists")
@@ -94,6 +111,7 @@ mod tests {
             .is_equal_to(&MyState::First);
     }
 
+    #[cfg(feature = "manage_state")]
     #[rstest]
     fn test_app_get_next_state(#[from(states_app)] mut app: TestApp) {
         asserting!("TestApp::get_next_state() before MyState exists")
@@ -111,6 +129,7 @@ mod tests {
             .is_equal_to(format!("{:?}", NextState::<MyState>::Unchanged));
     }
 
+    #[cfg(feature = "manage_state")]
     #[rstest]
     fn test_app_set_next_state(#[from(states_app)] mut app: TestApp) {
         asserting!("TestApp::set_next_state() before MyState exists")

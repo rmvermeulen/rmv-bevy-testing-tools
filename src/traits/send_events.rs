@@ -1,4 +1,4 @@
-use bevy_ecs::event::{Event, SendBatchIds};
+use bevy::ecs::event::{Event, SendBatchIds};
 
 use crate::prelude::TestApp;
 

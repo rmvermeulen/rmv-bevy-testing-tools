@@ -6,8 +6,7 @@
 add implements some helpful traits.
 
 ```rust
-# use bevy_app::{App, Plugin, Plugins};
-# use bevy_ecs::prelude::*;
+# use bevy::{app::Plugins, prelude::*};
 use rstest::{fixture, rstest};
 use rmv_bevy_testing_tools::prelude::*;
 
@@ -64,8 +63,7 @@ fn test_my_configurable_custom_test_app(
 ## EventCollector
 
 ```rust
-# use bevy_app::App;
-# use bevy_ecs::prelude::Event;
+# use bevy::prelude::*;
 # use rstest::*;
 use speculoos::prelude::*;
 use rmv_bevy_testing_tools::prelude::*;

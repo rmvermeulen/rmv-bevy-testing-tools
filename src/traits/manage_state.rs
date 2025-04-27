@@ -1,4 +1,4 @@
-use bevy_state::state::{FreelyMutableState, NextState, State, States};
+use bevy::state::state::{FreelyMutableState, NextState, State, States};
 
 use crate::prelude::TestApp;
 

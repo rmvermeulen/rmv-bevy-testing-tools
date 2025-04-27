@@ -7,7 +7,7 @@ pub mod assertions;
 pub mod events;
 #[cfg(any(test, feature = "rstest"))]
 pub mod fixtures;
-#[allow(unused_imports)]
+#[allow(unused_imports)] // silence warning about name starting with test_
 pub mod test_app;
 pub mod traits;
 
@@ -24,11 +24,11 @@ macro_rules! set_snapshot_suffix {
 pub mod prelude {
     #[cfg(feature = "speculoos")]
     pub use super::assertions::*;
-    #[cfg(feature = "rstest")]
+    #[cfg(any(test, feature = "rstest"))]
     pub use super::fixtures::*;
     #[cfg(feature = "insta")]
     pub use super::set_snapshot_suffix;
-    pub use super::{events::*, test_app, test_app::*, traits::*};
+    pub use super::{events::*, test_app::*, traits::*};
 }
 
 #[doc = include_str!("../Readme.md")]
@@ -38,33 +38,49 @@ pub struct ReadmeDoctests;
 #[cfg(test)]
 #[cfg_attr(coverage_nightly, coverage(off))]
 mod tests {
-    use bevy_ecs::event::Event;
-    use bevy_state::state::States;
-    #[cfg(feature = "rstest")]
+    use bevy::prelude::Event;
+    #[cfg(feature = "manage_state")]
+    use bevy::prelude::States;
     use rstest::rstest;
 
-    #[derive(Event, Default, Debug, Copy, Clone)]
-    struct MyEvent;
-    #[derive(States, Debug, Default, Hash, PartialEq, Eq, Clone, Copy)]
-    enum MyState {
-        #[default]
-        A,
-        B,
-    }
+    use crate::prelude::minimal_test_app;
+    #[cfg(feature = "rstest")]
+    use crate::prelude::{test_app, TestApp};
 
     #[cfg(feature = "rstest")]
     #[rstest]
-    fn can_access_everything(#[from(test_app)] mut app: TestApp) {
-        if do_not_run() {
+    fn with_rstest_fixtures(#[from(test_app)] mut app: TestApp) {
+        // if it compiles, it's fine
+        if skip_feature_test_body() {
             return;
         }
-        use bevy_state::app::AppExtStates;
-        use rstest::rstest;
 
-        use crate::test_app;
+        use crate::prelude::{CollectEvents, SendEvents};
+
+        #[derive(Event, Default, Debug, Copy, Clone)]
+        struct MyEvent;
 
         app.collect_events::<MyEvent>()
             .send_event_default::<MyEvent>();
+    }
+
+    #[cfg(feature = "manage_state")]
+    #[rstest]
+    fn trait_manage_state(#[from(minimal_test_app)] mut app: TestApp) {
+        if skip_feature_test_body() {
+            return;
+        }
+
+        use bevy::state::app::AppExtStates;
+
+        use crate::traits::ManageState;
+
+        #[derive(States, Debug, Default, Hash, PartialEq, Eq, Clone, Copy)]
+        enum MyState {
+            #[default]
+            A,
+            B,
+        }
 
         app.init_state::<MyState>();
         app.set_next_state(MyState::B);
@@ -73,18 +89,22 @@ mod tests {
     #[cfg(feature = "insta")]
     #[rstest]
     fn can_access_insta_macro() {
-        if do_not_run() {
+        // if it compiles, it's fine
+        if skip_feature_test_body() {
             return;
         }
+
         set_snapshot_suffix!("works");
     }
 
     #[cfg(feature = "speculoos")]
     #[rstest]
     fn can_access_assertions() {
-        if do_not_run() {
+        // if it compiles, it's fine
+        if skip_feature_test_body() {
             return;
         }
+
         use speculoos::assert_that;
 
         use crate::prelude::IsContainedIn;
@@ -96,18 +116,22 @@ mod tests {
     #[cfg(feature = "iter_tools")]
     #[rstest]
     fn can_access_query_vec() {
-        if do_not_run() {
+        // if it compiles, it's fine
+        if skip_feature_test_body() {
             return;
         }
 
-        use bevy_app::App;
-        use bevy_ecs::entity::Entity;
+        use bevy::{app::App, ecs::entity::Entity};
+
+        use crate::{test_app::TestApp, traits::ImmediateQuery};
 
         TestApp(App::new()).query_vec::<Entity>();
     }
 
-    fn do_not_run() -> bool {
+    #[allow(dead_code)]
+    fn skip_feature_test_body() -> bool {
         // basically return true always but don't let the compiler know
+        // so it checks code that we don't want to run anyway
         std::env::var("_SKIP_FEATURE_TESTS_")
             .map(|s| matches!(s.as_str(), "true" | "1"))
             .unwrap_or(true)

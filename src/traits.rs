@@ -1,8 +1,9 @@
-use bevy_ecs::event::Event;
+use bevy::ecs::event::Event;
 
 mod basic_query;
 mod collect_events;
 mod immediate_query;
+#[cfg(feature = "trait_manage_state")]
 mod manage_state;
 mod send_events;
 mod time_controls;
@@ -10,6 +11,7 @@ mod time_controls;
 pub use basic_query::*;
 pub use collect_events::*;
 pub use immediate_query::*;
+#[cfg(feature = "trait_manage_state")]
 pub use manage_state::*;
 pub use send_events::*;
 pub use time_controls::*;
@@ -18,7 +20,7 @@ pub use time_controls::*;
 mod tests {
     use std::time::Duration;
 
-    use bevy_internal::time::Time;
+    use bevy::prelude::Time;
     use rstest::rstest;
     use speculoos::{assert_that, option::OptionAssertions, prelude::BooleanAssertions};
 

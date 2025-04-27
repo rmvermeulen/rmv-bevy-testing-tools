@@ -8,33 +8,37 @@ readme = "Readme.md"
 repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 
 [features]
+# provides the `TestApp` and it's traits
+trait_manage_state = ["bevy/bevy_state"]
 default = []
+# everything, for convenience
 all = ["insta", "rstest", "speculoos", "iter_tools"]
+# exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
 insta = ["dep:insta"]
-rstest = ["dep:rstest", "dep:rstest_reuse"]
+# provides some baseline `TestApp`-fixtures
+rstest = ["dep:rstest", "dep:rstest_reuse", "bevy/bevy_pbr", "bevy/bevy_state"]
+# provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
+# add `ImmediateQuery::query_vec` for convenience
 iter_tools = ["dep:iter_tools"]
 
 [dependencies]
-bevy_app = "~0.16"
-bevy_asset = "~0.16"
-bevy_derive = "~0.16"
-bevy_ecs = "~0.16"
-bevy_internal = "~0.16"
-bevy_pbr = "~0.16"
-bevy_render = "~0.16"
-bevy_window = "~0.16"
-bevy_state = "~0.16"
 insta = { version = "^1.42", optional = true }
 rstest = { version = "^0.25", optional = true }
 rstest_reuse = { version = "^0.7.0", optional = true }
 speculoos = { version = "^0.13.0", optional = true }
 iter_tools = { version = "^0.29.0", optional = true }
 
+[dependencies.bevy]
+version = "~0.16"
+default-features = false
+features = ["bevy_window"]
+
 [dev-dependencies]
 rstest = "^0.25.0"
 rstest_reuse = "~0.7.0"
 speculoos = "^0.13.0"
+
 
 [build-dependencies]
 rustversion = "^1.0.0"

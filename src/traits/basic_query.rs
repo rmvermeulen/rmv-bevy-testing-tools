@@ -1,4 +1,4 @@
-use bevy_ecs::query::QueryData;
+use bevy::ecs::query::QueryData;
 
 use crate::prelude::TestApp;
 
