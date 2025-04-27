@@ -10,10 +10,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  feature-combination-tests:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Install latest nightly
@@ -21,8 +19,6 @@ jobs:
       with:
           toolchain: nightly
           override: true
-          components: rustfmt, clippy   
-    - name: Build
-      run: cargo build --verbose
+          components: rustfmt, clippy
     - name: Run tests
-      run: cargo test --verbose
+      run: ./feature-combination-tests.ps1 -Check -Test
