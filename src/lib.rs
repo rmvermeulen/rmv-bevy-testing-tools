@@ -43,7 +43,6 @@ mod tests {
     use bevy::prelude::States;
     use rstest::rstest;
 
-    use crate::prelude::minimal_test_app;
     #[cfg(feature = "rstest")]
     use crate::prelude::{test_app, TestApp};
 

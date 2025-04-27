@@ -57,8 +57,7 @@ mod tests {
         app::{AppExtStates, StatesPlugin},
         state::{NextState, States},
     };
-    use rstest::{fixture, rstest};
-    use speculoos::{assert_that, asserting, option::OptionAssertions, string::StrAssertions};
+    use rstest::rstest;
 
     #[cfg(feature = "rstest")]
     use crate::fixtures::test_app;
