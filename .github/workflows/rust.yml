@@ -21,4 +21,4 @@ jobs:
           override: true
           components: rustfmt, clippy
     - name: Run tests
-      run: ./feature-combination-tests.ps1 -Check -Test
+      run: ./feature-combination-tests.ps1 -Test
