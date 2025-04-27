@@ -1,4 +1,4 @@
-#![feature(coverage_attribute)]
+#![cfg_attr(coverage_nightly, feature(coverage_attribute))]
 
 // TODO: setup tags for different versions of bevy
 

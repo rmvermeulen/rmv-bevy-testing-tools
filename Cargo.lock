@@ -2428,6 +2428,7 @@ dependencies = [
  "iter_tools",
  "rstest",
  "rstest_reuse",
+ "rustversion",
  "speculoos",
 ]
 
