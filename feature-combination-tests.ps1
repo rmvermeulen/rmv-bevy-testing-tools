@@ -14,6 +14,7 @@ if (!$Check -and !$Test)
 }
 
 $feature_groups = @( 
+    @(),
     # 1
     @("insta"),
     @("rstest"),
