@@ -1,7 +1,6 @@
 use bevy::{
     app::{App, Plugins},
-    prelude::MinimalPlugins,
-    utils::default,
+    prelude::{default, MinimalPlugins},
     window::{ExitCondition, WindowPlugin},
 };
 use rstest::fixture;
