@@ -9,8 +9,9 @@ repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 
 [features]
 # provides the `TestApp` and it's traits
-trait_manage_state = ["bevy/bevy_state"]
 default = []
+# provides `ManageState` with several helpful methods
+trait_manage_state = ["bevy/bevy_state"]
 # everything, for convenience
 all = ["insta", "rstest", "speculoos", "iter_tools"]
 # exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
