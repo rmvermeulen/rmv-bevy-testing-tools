@@ -15,7 +15,13 @@ all = ["insta", "rstest", "speculoos", "iter_tools", "traits", "events"]
 # exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
 insta = ["dep:insta"]
 # provides some baseline `TestApp`-fixtures
-rstest = ["dep:rstest", "dep:rstest_reuse", "dep:bevy_pbr", "dep:bevy_state"]
+rstest = [
+    "dep:rstest",
+    "dep:rstest_reuse",
+    "dep:bevy_pbr",
+    "dep:bevy_render",
+    "dep:bevy_state",
+]
 # provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
 # add `ImmediateQuery::query_vec` for convenience
