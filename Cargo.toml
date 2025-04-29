@@ -34,7 +34,6 @@ trait_send_events = ["events", "dep:bevy_ecs"]
 trait_time_controls = []
 trait_collect_events = ["events", "dep:bevy_ecs"]
 trait_query = ["dep:bevy_ecs"]
-bevy_render = ["dep:bevy_render"]
 
 [dependencies]
 insta = { version = "^1.43", optional = true }
