@@ -1,14 +1,7 @@
-use std::time::Duration;
+use bevy_app::{App, AppExit};
+use bevy_derive::{Deref, DerefMut};
 
-use bevy::{
-    app::{App, AppExit},
-    ecs::{
-        event::{Event, SendBatchIds},
-        query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData, WorldQuery},
-    },
-    prelude::{Deref, DerefMut, Time, Virtual},
-};
-
+// TODO: remove, impl traits on bevy app directly?
 #[derive(Debug, Deref, DerefMut)]
 pub struct TestApp(pub App);
 

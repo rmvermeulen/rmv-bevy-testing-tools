@@ -1,8 +1,5 @@
-use bevy::{
-    app::{App, Plugins},
-    prelude::{default, MinimalPlugins},
-    window::{ExitCondition, WindowPlugin},
-};
+use bevy_app::{App, Plugins};
+use bevy_window::{ExitCondition, WindowPlugin};
 use rstest::fixture;
 
 use crate::test_app::TestApp;
@@ -11,6 +8,8 @@ use crate::test_app::TestApp;
 #[cfg(any(test, feature = "rstest"))]
 #[fixture]
 pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
+    use bevy_internal::{utils::default, MinimalPlugins};
+
     let mut app = App::new();
 
     app.add_plugins((
@@ -33,11 +32,9 @@ pub fn test_app<P>(
     #[default(())] plugins: impl Plugins<P>,
     #[from(minimal_test_app)] mut app: TestApp,
 ) -> TestApp {
-    use bevy::{
-        asset::{AssetApp, AssetPlugin},
-        pbr::{MaterialPlugin, StandardMaterial},
-        render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin},
-    };
+    use bevy_asset::{AssetApp, AssetPlugin};
+    use bevy_pbr::{MaterialPlugin, StandardMaterial};
+    use bevy_render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin};
     app.add_plugins(AssetPlugin::default())
         .init_asset::<Shader>()
         .add_plugins((
@@ -51,18 +48,11 @@ pub fn test_app<P>(
 
 #[cfg(test)]
 mod tests {
-    #[cfg(feature = "manage_state")]
-    use bevy::state::{
-        app::{AppExtStates, StatesPlugin},
-        state::{NextState, States},
-    };
     use rstest::rstest;
 
     #[cfg(feature = "rstest")]
     use crate::fixtures::test_app;
     use crate::fixtures::{minimal_test_app, TestApp};
-    #[cfg(feature = "manage_state")]
-    use crate::traits::ManageState;
 
     #[rstest]
     fn test_minimal_app_is_created(mut minimal_test_app: TestApp) {
@@ -75,75 +65,5 @@ mod tests {
     fn test_test_app_is_created(mut test_app: TestApp) {
         test_app.update();
         drop(test_app);
-    }
-
-    #[cfg(feature = "manage_state")]
-    #[derive(States, Debug, Copy, Clone, PartialEq, Eq, Hash)]
-    enum MyState {
-        First,
-        Second,
-    }
-
-    #[cfg(feature = "manage_state")]
-    #[fixture]
-    fn states_app(
-        #[from(minimal_test_app)]
-        #[with(StatesPlugin)]
-        app: TestApp,
-    ) -> TestApp {
-        app
-    }
-
-    #[cfg(feature = "manage_state")]
-    #[rstest]
-    fn test_app_get_state(#[from(states_app)] mut app: TestApp) {
-        asserting!("TestApp::get_state() before MyState exists")
-            .that(&app.get_state::<MyState>())
-            .is_none();
-
-        app.insert_state(MyState::First);
-
-        asserting!("TestApp::get_state() when MyState exists")
-            .that(&app.get_state::<MyState>())
-            .is_some()
-            .is_equal_to(&MyState::First);
-    }
-
-    #[cfg(feature = "manage_state")]
-    #[rstest]
-    fn test_app_get_next_state(#[from(states_app)] mut app: TestApp) {
-        asserting!("TestApp::get_next_state() before MyState exists")
-            .that(&app.get_next_state::<MyState>())
-            .is_none();
-
-        app.insert_state(MyState::First);
-
-        let next_state = app.get_next_state::<MyState>();
-
-        asserting!("TestApp::get_next_state() when MyState exists")
-            .that(&next_state)
-            .is_some();
-        assert_that!(format!("{:?}", next_state.unwrap()))
-            .is_equal_to(format!("{:?}", NextState::<MyState>::Unchanged));
-    }
-
-    #[cfg(feature = "manage_state")]
-    #[rstest]
-    fn test_app_set_next_state(#[from(states_app)] mut app: TestApp) {
-        asserting!("TestApp::set_next_state() before MyState exists")
-            .that(&app.set_next_state(MyState::First))
-            .is_none();
-
-        app.insert_state(MyState::First);
-        asserting!("TestApp::set_next_state() before MyState exists")
-            .that(&app.set_next_state(MyState::Second))
-            .is_some();
-
-        let next_state = app.get_next_state::<MyState>();
-        asserting!("TestApp::get_next_state() after set_next_state()")
-            .that(&next_state)
-            .is_some();
-        assert_that!(format!("{:?}", next_state.unwrap()))
-            .contains(format!("{:?}", MyState::Second));
     }
 }

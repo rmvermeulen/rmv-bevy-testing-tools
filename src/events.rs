@@ -1,13 +1,11 @@
 use std::marker::PhantomData;
 
-use bevy::{
-    app::{App, Plugin, PostUpdate},
-    ecs::{
-        event::{Event, EventReader},
-        resource::Resource,
-        system::ResMut,
-    },
-    prelude::{Deref, DerefMut},
+use bevy_app::{App, Plugin, PostUpdate};
+use bevy_derive::{Deref, DerefMut};
+use bevy_ecs::{
+    event::{Event, EventReader},
+    resource::Resource,
+    system::ResMut,
 };
 
 #[derive(Debug, Resource, Deref, DerefMut)]
@@ -93,7 +91,8 @@ impl<E: Event + Clone + PartialEq> Plugin for EventFilterPlugin<E> {
 mod tests {
     use std::str::FromStr;
 
-    use bevy::{app::Update, ecs::event::EventWriter};
+    use bevy_app::Update;
+    use bevy_ecs::event::EventWriter;
     use rstest::*;
     use speculoos::prelude::*;
 
@@ -125,7 +124,7 @@ mod tests {
 
         app.add_systems(Update, move |mut writer: EventWriter<NonEqEvent>| {
             for _ in 0..emit_count {
-                writer.send(NonEqEvent);
+                writer.write(NonEqEvent);
             }
         });
 
@@ -157,7 +156,7 @@ mod tests {
     ) {
         app.add_systems(Update, move |mut writer: EventWriter<CmpEvent>| {
             for e in &*events_to_emit {
-                writer.send(e.clone());
+                writer.write(e.clone());
             }
         });
 
@@ -193,7 +192,7 @@ mod tests {
 
         app.add_systems(Update, move |mut writer: EventWriter<CmpEvent>| {
             for e in &*events_to_emit {
-                writer.send(e.clone());
+                writer.write(e.clone());
             }
         });
 

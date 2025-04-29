@@ -1,4 +1,4 @@
-use bevy::ecs::query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData};
+use bevy_ecs::query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryData};
 
 use crate::prelude::TestApp;
 
@@ -54,7 +54,7 @@ impl ImmediateQuery for TestApp {
     fn query_collect<D, C>(&mut self) -> C
     where
         D: ReadOnlyQueryData,
-        for<'a> C: std::iter::FromIterator<<D as bevy::ecs::query::QueryData>::Item<'a>>,
+        for<'a> C: std::iter::FromIterator<<D as bevy_ecs::query::QueryData>::Item<'a>>,
     {
         let mut query = self.world_mut().query::<D>();
         let result = query.iter(self.world_mut()).collect::<C>();

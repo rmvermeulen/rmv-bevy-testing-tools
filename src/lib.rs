@@ -4,6 +4,7 @@
 
 #[cfg(feature = "speculoos")]
 pub mod assertions;
+#[cfg(feature = "events")]
 pub mod events;
 #[cfg(any(test, feature = "rstest"))]
 pub mod fixtures;
@@ -24,11 +25,15 @@ macro_rules! set_snapshot_suffix {
 pub mod prelude {
     #[cfg(feature = "speculoos")]
     pub use super::assertions::*;
+    #[cfg(feature = "insta")]
+    pub use super::events::*;
     #[cfg(any(test, feature = "rstest"))]
     pub use super::fixtures::*;
     #[cfg(feature = "insta")]
     pub use super::set_snapshot_suffix;
-    pub use super::{events::*, test_app::*, traits::*};
+    pub use super::test_app::*;
+    #[allow(unused_imports)]
+    pub use super::traits::*;
 }
 
 #[doc = include_str!("../Readme.md")]
@@ -38,9 +43,7 @@ pub struct ReadmeDoctests;
 #[cfg(test)]
 #[cfg_attr(coverage_nightly, coverage(off))]
 mod tests {
-    use bevy::prelude::Event;
-    #[cfg(feature = "manage_state")]
-    use bevy::prelude::States;
+    #[cfg(feature = "rstest")]
     use rstest::rstest;
 
     #[cfg(feature = "rstest")]
@@ -54,35 +57,12 @@ mod tests {
             return;
         }
 
+        use bevy_app::AppExit;
+
         use crate::prelude::{CollectEvents, SendEvents};
 
-        #[derive(Event, Default, Debug, Copy, Clone)]
-        struct MyEvent;
-
-        app.collect_events::<MyEvent>()
-            .send_event_default::<MyEvent>();
-    }
-
-    #[cfg(feature = "manage_state")]
-    #[rstest]
-    fn trait_manage_state(#[from(minimal_test_app)] mut app: TestApp) {
-        if skip_feature_test_body() {
-            return;
-        }
-
-        use bevy::state::app::AppExtStates;
-
-        use crate::traits::ManageState;
-
-        #[derive(States, Debug, Default, Hash, PartialEq, Eq, Clone, Copy)]
-        enum MyState {
-            #[default]
-            A,
-            B,
-        }
-
-        app.init_state::<MyState>();
-        app.set_next_state(MyState::B);
+        app.collect_events::<AppExit>()
+            .send_event_default::<AppExit>();
     }
 
     #[cfg(feature = "insta")]
@@ -120,7 +100,8 @@ mod tests {
             return;
         }
 
-        use bevy::{app::App, ecs::entity::Entity};
+        use bevy_app::App;
+        use bevy_ecs::entity::Entity;
 
         use crate::{test_app::TestApp, traits::ImmediateQuery};
 
