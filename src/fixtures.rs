@@ -1,4 +1,5 @@
 use bevy_app::{App, Plugins};
+use bevy_utils::default;
 use bevy_window::{ExitCondition, WindowPlugin};
 use rstest::fixture;
 
@@ -8,7 +9,7 @@ use crate::test_app::TestApp;
 #[cfg(any(test, feature = "rstest"))]
 #[fixture]
 pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
-    use bevy_internal::{utils::default, MinimalPlugins};
+    use bevy_internal::MinimalPlugins;
 
     let mut app = App::new();
 
