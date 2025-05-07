@@ -1,6 +1,6 @@
 [package]
 name = "rmv-bevy-testing-tools"
-version = "0.6.2-rc2"
+version = "0.7.0-rc1"
 edition = "2021"
 license = "MIT"
 description = "Write simple tests for bevy systems, using rstest, insta, and speculoos."
