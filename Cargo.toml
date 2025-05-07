@@ -31,13 +31,11 @@ events = ["dep:bevy_ecs"]
 traits = [
     "trait_manage_state",
     "trait_send_events",
-    "trait_time_controls",
     "trait_collect_events",
     "trait_query",
 ]
 trait_manage_state = ["dep:bevy_state"]
 trait_send_events = ["events", "dep:bevy_ecs"]
-trait_time_controls = []
 trait_collect_events = ["events", "dep:bevy_ecs"]
 trait_query = ["dep:bevy_ecs"]
 

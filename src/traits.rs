@@ -16,5 +16,3 @@ trait_mod!(immediate_query);
 trait_mod!(manage_state);
 #[cfg(feature = "trait_send_events")]
 trait_mod!(send_events);
-#[cfg(feature = "trait_time_controls")]
-trait_mod!(time_controls);
