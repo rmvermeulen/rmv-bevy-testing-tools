@@ -2,6 +2,7 @@ use bevy_ecs::query::{QueryData, QueryFilter, QuerySingleError, ReadOnlyQueryDat
 
 use crate::prelude::TestApp;
 
+#[doc = include_str!("./immediate_query.md")]
 pub trait ImmediateQuery {
     fn query_single<D>(&mut self) -> Result<<D as QueryData>::Item<'_>, QuerySingleError>
     where

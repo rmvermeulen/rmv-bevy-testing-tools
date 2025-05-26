@@ -2,6 +2,7 @@ use bevy_ecs::event::{Event, SendBatchIds};
 
 use crate::prelude::TestApp;
 
+#[doc = include_str!("./send_events.md")]
 pub trait SendEvents {
     fn send_event_default<E: Event + Default>(&mut self);
     fn send_event<E: Event>(&mut self, event: E);

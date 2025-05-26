@@ -8,6 +8,7 @@ pub trait BasicQuery {
         Q: QueryData<Item<'a> = C>;
 }
 
+#[doc = include_str!("./basic_query.md")]
 impl BasicQuery for TestApp {
     fn query_any<'a, Q, C>(&mut self) -> bool
     where

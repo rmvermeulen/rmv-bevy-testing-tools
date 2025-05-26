@@ -5,6 +5,7 @@ use crate::{
     prelude::TestApp,
 };
 
+#[doc = include_str!("./collect_events.md")]
 pub trait CollectEvents {
     fn collect_events<E: Event + Clone>(&mut self) -> &mut Self;
     fn collect_events_only<E: Event + Clone + PartialEq>(&mut self, event: E) -> &mut Self;

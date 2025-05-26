@@ -2,6 +2,7 @@ use bevy_state::state::{FreelyMutableState, NextState, State, States};
 
 use crate::prelude::TestApp;
 
+#[doc = include_str!("./manage_state.md")]
 pub trait ManageState {
     fn get_state<S: States>(&self) -> Option<&S>;
     fn get_next_state<S: FreelyMutableState>(&self) -> Option<&NextState<S>>;

@@ -59,6 +59,7 @@ bevy_render = { version = "0.16.0", default-features = false, optional = true }
 bevy_utils = { version = "0.16.0", default-features = false }
 
 [dev-dependencies]
+bevy = { version = "0.16.0", default-features = false, features = ["bevy_render", "bevy_state"] }
 bevy_ecs = { version = "0.16.0", default-features = false }
 rstest = "^0.25.0"
 rstest_reuse = "~0.7.0"
