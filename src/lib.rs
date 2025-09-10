@@ -2,6 +2,23 @@
 
 // TODO: setup tags for different versions of bevy
 
+#[allow(dead_code)]
+mod deprecated {
+    use konst::{iter, result, string};
+    use static_assertions::const_assert_eq;
+    const VERSION: [u32; 3] = iter::collect_const!(u32 =>
+        string::split(env!("CARGO_PKG_VERSION"), "."),
+        map(|s| result::unwrap!(u32::from_str_radix(s, 10))));
+    const MAJOR: u32 = VERSION[0];
+    const MINOR: u32 = VERSION[1];
+    const PATCH: u32 = VERSION[2];
+    const_assert_eq!(MAJOR, 0);
+
+    #[cfg(any(not(feature = "iter_tools"), feature = "iter_tools"))]
+    const_assert_eq!(MINOR, 7);
+    // TODO: remove deprecated feature `iter_tools` before 0.8
+}
+
 #[cfg(feature = "speculoos")]
 pub mod assertions;
 #[cfg(feature = "events")]
