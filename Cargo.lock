@@ -1074,12 +1074,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "clone_dyn_types"
-version = "0.37.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d567be15b62e177afd9ab4e1d7bcbfbb2639db20568bcff2c0e721b155acc5f"
-
-[[package]]
 name = "codespan-reporting"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1722,25 +1716,6 @@ dependencies = [
  "console",
  "once_cell",
  "similar",
-]
-
-[[package]]
-name = "iter_tools"
-version = "0.36.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28adb4b041c3c976f76beda26a171cc0d60f86d71b7c531ecf7db8251df45a35"
-dependencies = [
- "clone_dyn_types",
- "itertools 0.11.0",
-]
-
-[[package]]
-name = "itertools"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1c173a5686ce8bfa551b3563d0c2170bf24ca44da99c7ca4bfdab5418c3fe57"
-dependencies = [
- "either",
 ]
 
 [[package]]
@@ -2495,7 +2470,7 @@ dependencies = [
  "bevy_utils",
  "bevy_window",
  "insta",
- "iter_tools",
+ "itertools 0.14.0",
  "rstest",
  "rstest_reuse",
  "rustversion",

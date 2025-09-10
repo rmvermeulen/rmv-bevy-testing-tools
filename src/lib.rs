@@ -92,7 +92,7 @@ mod tests {
         assert_that!(1).is_contained_in(&items);
     }
 
-    #[cfg(feature = "iter_tools")]
+    #[cfg(feature = "itertools")]
     #[rstest]
     fn can_access_query_vec() {
         // if it compiles, it's fine

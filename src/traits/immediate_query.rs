@@ -17,7 +17,7 @@ pub trait ImmediateQuery {
     where
         D: ReadOnlyQueryData,
         for<'a> C: std::iter::FromIterator<<D as QueryData>::Item<'a>>;
-    #[cfg(feature = "iter_tools")]
+    #[cfg(feature = "itertools")]
     fn query_vec<D>(&mut self) -> Vec<<D as QueryData>::Item<'_>>
     where
         D: ReadOnlyQueryData;
@@ -41,12 +41,12 @@ impl ImmediateQuery for TestApp {
         let mut query = self.world_mut().query_filtered::<D, F>();
         query.single(self.world_mut())
     }
-    #[cfg(feature = "iter_tools")]
+    #[cfg(feature = "itertools")]
     fn query_vec<D>(&mut self) -> Vec<<D as QueryData>::Item<'_>>
     where
         D: ReadOnlyQueryData,
     {
-        use iter_tools::Itertools;
+        use itertools::Itertools;
 
         let mut query = self.world_mut().query::<D>();
         query.iter(self.world_mut()).collect_vec()

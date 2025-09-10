@@ -11,7 +11,7 @@ repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 # provides the `TestApp` and it's traits
 default = []
 # everything, for convenience
-all = ["insta", "rstest", "speculoos", "iter_tools", "traits", "events"]
+all = ["insta", "rstest", "speculoos", "itertools", "traits", "events"]
 # exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
 insta = ["dep:insta"]
 # provides some baseline `TestApp`-fixtures
@@ -25,7 +25,8 @@ rstest = [
 # provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
 # add `ImmediateQuery::query_vec` for convenience
-iter_tools = ["dep:iter_tools"]
+iter_tools = ["itertools"] # remove before 0.8
+itertools = ["dep:itertools"]
 events = ["dep:bevy_ecs"]
 # provides all traits
 traits = [
@@ -53,7 +54,7 @@ bevy_time = { version = "0.16.0", default-features = false }
 bevy_utils = { version = "0.16.0", default-features = false }
 bevy_window = "0.16.0"
 insta = { version = "^1.43", optional = true }
-iter_tools = { version = "^0.36.0", optional = true }
+itertools = { version = "^0.14.0", optional = true }
 rstest = { version = "^0.26", optional = true }
 rstest_reuse = { version = "^0.7.0", optional = true }
 speculoos = { version = "^0.13.0", optional = true }
