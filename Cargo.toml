@@ -21,6 +21,7 @@ rstest = [
     "dep:bevy_pbr",
     "dep:bevy_render",
     "dep:bevy_state",
+    "dep:bevy_asset",
 ]
 # provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
@@ -47,10 +48,8 @@ bevy_derive = { version = "^0.16", default-features = false }
 bevy_ecs = { version = "^0.16", optional = true }
 bevy_internal = { version = "^0.16", default-features = false }
 bevy_pbr = { version = "^0.16", optional = true }
-bevy_reflect = { version = "^0.16", default-features = false, optional = true }
 bevy_render = { version = "^0.16", default-features = false, optional = true }
 bevy_state = { version = "^0.16", optional = true }
-bevy_time = { version = "^0.16", default-features = false, optional = true }
 bevy_utils = { version = "^0.16", default-features = false }
 bevy_window = { version = "^0.16" }
 insta = { version = "^1.43", optional = true }
@@ -74,3 +73,42 @@ speculoos = "^0.13.0"
 
 [build-dependencies]
 rustversion = "^1.0.22"
+
+[package.metadata.cargo-feature-combinations]
+# When at least one isolated feature set is configured, stop taking all project
+# features as a whole, and instead take them in these isolated sets. Build a
+# sub-matrix for each isolated set, then merge sub-matrices into the overall
+# feature matrix. If any two isolated sets produce an identical feature
+# combination, such combination will be included in the overall matrix only once.
+#
+# This feature is intended for projects with large number of features, sub-sets
+# of which are completely independent, and thus don’t need cross-play.
+#
+# Other configuration options are still respected.
+# isolated_feature_sets = [
+#     ["foo-a", "foo-b", "foo-c"],
+#     ["bar-a", "bar-b"],
+#     ["other-a", "other-b", "other-c"],
+# ]
+
+# Exclude groupings of features that are incompatible or do not make sense
+# exclude_feature_sets = [ ["foo", "bar"], ] # formerly "skip_feature_sets"
+
+# Exclude features from the feature combination matrix
+exclude_features = [
+    "default",
+    "all",
+    "trait_manage_state",
+    "trait_send_events",
+    "trait_collect_events",
+    "trait_query",
+]
+
+
+# In the end, always add these exact combinations to the overall feature matrix,
+# unless one is already present there.
+#
+# Non-existent features are ignored. Other configuration options are ignored.
+# include_feature_sets = [
+#     ["foo-a", "bar-a", "other-a"],
+# ] # formerly "exact_combinations"
