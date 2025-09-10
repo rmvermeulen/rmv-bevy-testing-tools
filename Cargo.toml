@@ -11,7 +11,7 @@ repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 # provides the `TestApp` and it's traits
 default = []
 # everything, for convenience
-all = ["insta", "rstest", "speculoos", "itertools", "traits", "events"]
+all = ["insta", "rstest", "speculoos", "itertools", "traits"]
 # exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
 insta = ["dep:insta"]
 # provides some baseline `TestApp`-fixtures
@@ -26,9 +26,8 @@ rstest = [
 # provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
 # add `ImmediateQuery::query_vec` for convenience
-iter_tools = ["itertools"]    # remove before 0.8
-itertools = ["dep:itertools"]
-events = ["dep:bevy_ecs"]
+iter_tools = ["itertools"]                   # remove before 0.8
+itertools = ["dep:itertools", "trait_query"]
 # provides all traits
 traits = [
     "trait_manage_state",
@@ -36,10 +35,10 @@ traits = [
     "trait_collect_events",
     "trait_query",
 ]
-trait_manage_state = ["dep:bevy_state"]
-trait_send_events = ["events", "dep:bevy_ecs"]
-trait_collect_events = ["events", "dep:bevy_ecs"]
-trait_query = ["dep:bevy_ecs"]
+trait_manage_state = ["dep:bevy_state", "rstest"]
+trait_send_events = ["dep:bevy_ecs", "rstest"]
+trait_collect_events = ["dep:bevy_ecs", "rstest"]
+trait_query = ["dep:bevy_ecs", "rstest"]
 
 [dependencies]
 bevy_app = { version = "^0.16", default-features = false }
@@ -66,6 +65,7 @@ bevy = { version = "^0.16", default-features = false, features = [
     "bevy_state",
 ] }
 bevy_ecs = { version = "^0.16", default-features = false }
+insta = "1.43.2"
 rstest = "^0.26.1"
 rstest_reuse = "~0.7.0"
 speculoos = "^0.13.0"

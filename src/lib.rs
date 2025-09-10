@@ -21,7 +21,7 @@ mod deprecated {
 
 #[cfg(feature = "speculoos")]
 pub mod assertions;
-#[cfg(feature = "events")]
+#[cfg(any(all(test, feature = "rstest"), feature = "trait_collect_events"))]
 pub mod events;
 #[cfg(any(test, feature = "rstest"))]
 pub mod fixtures;
@@ -42,7 +42,7 @@ macro_rules! set_snapshot_suffix {
 pub mod prelude {
     #[cfg(feature = "speculoos")]
     pub use super::assertions::*;
-    #[cfg(feature = "insta")]
+    #[cfg(feature = "trait_collect_events")]
     pub use super::events::*;
     #[cfg(any(test, feature = "rstest"))]
     pub use super::fixtures::*;
@@ -60,7 +60,7 @@ pub struct ReadmeDoctests;
 #[cfg(test)]
 #[cfg_attr(coverage_nightly, coverage(off))]
 mod tests {
-    #[cfg(feature = "rstest")]
+    #[allow(unused_imports)]
     use rstest::rstest;
 
     #[cfg(feature = "rstest")]

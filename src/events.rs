@@ -8,7 +8,7 @@ use bevy_ecs::{
     system::ResMut,
 };
 
-#[derive(Debug, Resource, Deref, DerefMut)]
+#[derive(Debug, Deref, DerefMut, Resource)]
 pub struct CollectedEvents<E>(Vec<E>);
 
 impl<E: Event> CollectedEvents<E> {
@@ -107,7 +107,7 @@ mod tests {
         assert_that!(v1).is_equal_to(v2);
     }
 
-    #[derive(Debug, Event, Copy, Clone)]
+    #[derive(Clone, Copy, Debug, Event)]
     struct NonEqEvent;
 
     #[rstest]
@@ -135,7 +135,7 @@ mod tests {
             .has_length(emit_count);
     }
 
-    #[derive(Debug, Event, Clone, PartialEq)]
+    #[derive(Clone, Debug, Event, PartialEq)]
     enum CmpEvent {
         A,
         B,
@@ -236,7 +236,7 @@ mod tests {
         assert_that!(magic).is_equal_to(expected.unwrap());
     }
 
-    #[derive(Debug, Clone, Deref)]
+    #[derive(Clone, Debug, Deref)]
     struct EventList<E: Event + Clone>(Vec<E>);
 
     impl<E: Event + Clone + FromStr<Err = InvalidEvent>> FromStr for EventList<E> {
