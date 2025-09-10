@@ -41,18 +41,18 @@ trait_collect_events = ["events", "dep:bevy_ecs"]
 trait_query = ["dep:bevy_ecs"]
 
 [dependencies]
-bevy_app = { version = "0.16.0", default-features = false }
-bevy_asset = { version = "0.16.0" }
-bevy_derive = { version = "0.16.0", default-features = false }
-bevy_ecs = { version = "0.16.0", optional = true }
-bevy_internal = { version = "0.16.0", default-features = false }
-bevy_pbr = { version = "0.16.0", optional = true }
-bevy_reflect = { version = "0.16.0", default-features = false }
-bevy_render = { version = "0.16.0", default-features = false, optional = true }
-bevy_state = { version = "0.16.0", optional = true }
-bevy_time = { version = "0.16.0", default-features = false }
-bevy_utils = { version = "0.16.0", default-features = false }
-bevy_window = "0.16.0"
+bevy_app = { version = "^0.16", default-features = false }
+bevy_asset = { version = "^0.16", optional = true }
+bevy_derive = { version = "^0.16", default-features = false }
+bevy_ecs = { version = "^0.16", optional = true }
+bevy_internal = { version = "^0.16", default-features = false }
+bevy_pbr = { version = "^0.16", optional = true }
+bevy_reflect = { version = "^0.16", default-features = false, optional = true }
+bevy_render = { version = "^0.16", default-features = false, optional = true }
+bevy_state = { version = "^0.16", optional = true }
+bevy_time = { version = "^0.16", default-features = false, optional = true }
+bevy_utils = { version = "^0.16", default-features = false }
+bevy_window = { version = "^0.16" }
 insta = { version = "^1.43", optional = true }
 itertools = { version = "^0.14.0", optional = true }
 konst = "0.4.2"
@@ -62,15 +62,15 @@ speculoos = { version = "^0.13.0", optional = true }
 static_assertions = { version = "1.1.0", features = ["nightly"] }
 
 [dev-dependencies]
-bevy = { version = "0.16.0", default-features = false, features = [
+bevy = { version = "^0.16", default-features = false, features = [
     "bevy_render",
     "bevy_state",
 ] }
-bevy_ecs = { version = "0.16.0", default-features = false }
+bevy_ecs = { version = "^0.16", default-features = false }
 rstest = "^0.26.1"
 rstest_reuse = "~0.7.0"
 speculoos = "^0.13.0"
 
 
 [build-dependencies]
-rustversion = "^1.0.20"
+rustversion = "^1.0.22"
