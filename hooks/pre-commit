@@ -1,56 +1,7 @@
-#!/usr/bin/env pwsh
-#require 7.5
-Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
+#!/usr/bin/env bash
+set -e
 
-Write-Output "[pre-commit] fix and format changes..."
-
-$rust_files=@( $(git status --short '*.rs') )
-
-$staged = @( $rust_files | Where-Object { $_[0] -ne ' ' } | ForEach-Object { $_ -split " " | tail -1 } )
-if ($staged.Count -eq 0) {
-    Write-Output "[pre-commit] skipped ✓"
-    # no rust files
-    exit 0;
-}
-$dirty = @( $rust_files | Where-Object { $_[1] -ne ' ' } | ForEach-Object { $_ -split " " | tail -1 } )
-$partial = @( $staged | Where-Object { $dirty -contains $_ } )
-
-function abort_commit {
-    Write-Output "[pre-commit] aborted"
-    exit 1;
-}
-
-# check for partially staged rust files 
-if ($partial.Count -eq 0) {
-    # format and re-add
-    cargo clippy --fix --allow-staged --allow-dirty --all-features 2>&1 `
-        | Select -Last 2 | Select -First 1
-    if (! $?) { abort_commit }
-    cargo fmt
-    if (! $?) { abort_commit }
-    git update-index --again
-    if (! $?) { abort_commit }
-    Write-Output "[pre-commit] fixed up and formatted ✓"
-} else {
-    # otherwise only check formatting
-    cargo fmt --check
-    if (! $?) { abort_commit }
-    Write-Output "[pre-commit] formatted ✓"
-}
-
-Write-Output "[pre-commit] testing"
-$job = Start-Job { cargo test --all-features 2>&1 && Write-Output "PASS" || Write-Output "FAIL" }
-$output = Receive-Job -Job $job -Wait | Out-String
-$output = $output.Trim()
-if ($output.EndsWith("PASS")) {
-    Write-Output "[pre-commit] tests PASS ✓"
-    exit 0
-}
-Write-Output $output
-if ($output.EndsWith("FAIL")) {
-    Write-Output "[pre-commit] tests FAIL"
-    abort_commit
-}
-Write-Output "[pre-commit] unexpected test output!"
-abort_commit
+cargo clippy --fix --allow-staged --all-features
+cargo fmt
+git update-index --again
+cargo test --all-features
