@@ -10,6 +10,9 @@ pub trait BasicQuery {
 impl BasicQuery for TestApp {
     fn query_any<Q: QueryData>(&mut self) -> bool {
         let mut q = self.world_mut().query::<Q>();
-        q.iter(self.world()).next().is_some()
+        let mut x = q.iter(self.world());
+        let x = x.next();
+        
+        x.is_some()
     }
 }

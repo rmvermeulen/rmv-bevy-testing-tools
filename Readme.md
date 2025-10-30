@@ -3,7 +3,7 @@
 ## TestApp
 
 `TestApp` wraps a `bevy::app::App` so it can exit cleanly when dropped, and
-add implements some helpful traits.
+implements some helpful traits.
 
 ```rust
 # use bevy_app::{App, Plugin, Plugins};
@@ -60,28 +60,28 @@ fn test_my_configurable_custom_test_app(
 
 ```
 
-## EventCollector
+## MessageCollector
 
 ```rust
 # use bevy_app::{App, Plugins};
-# use bevy_ecs::event::Event;
+# use bevy_ecs::message::Message;
 # use rstest::*;
 use speculoos::prelude::*;
 use rmv_bevy_testing_tools::prelude::*;
 
-#[derive(Event, Clone, Debug, PartialEq)]
-struct MyEvent;
+#[derive(Message, Clone, Debug, PartialEq)]
+struct MyMessage;
 
 #[rstest]
 fn test_events(
     #[with((
         GamePlugin,
-        EventCollector::<MyEvent>::new()
+        MessageCollector::<MyMessage>::new()
     ))]
     mut test_app: TestApp,
 ) {
     test_app.update();
-    let events = test_app.get_collected_events::<MyEvent>();
+    let events = test_app.get_collected_events::<MyMessage>();
     assert_that!(&events)
         .named("collected events")
         .is_some()

@@ -34,8 +34,10 @@ pub fn test_app<P>(
     #[from(minimal_test_app)] mut app: TestApp,
 ) -> TestApp {
     use bevy_asset::{AssetApp, AssetPlugin};
+    use bevy_image::ImagePlugin;
+    use bevy_mesh::MeshPlugin;
     use bevy_pbr::{MaterialPlugin, StandardMaterial};
-    use bevy_render::{mesh::MeshPlugin, render_resource::Shader, texture::ImagePlugin};
+    use bevy_shader::Shader;
     app.add_plugins(AssetPlugin::default())
         .init_asset::<Shader>()
         .add_plugins((

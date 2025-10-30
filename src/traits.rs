@@ -8,11 +8,11 @@ macro_rules! trait_mod {
 
 #[cfg(feature = "trait_query")]
 trait_mod!(basic_query);
-#[cfg(any(all(test, feature = "rstest"), feature = "trait_collect_events"))]
-trait_mod!(collect_events);
+#[cfg(any(all(test, feature = "rstest"), feature = "trait_collect_messages"))]
+trait_mod!(collect_messages);
 #[cfg(feature = "trait_query")]
 trait_mod!(immediate_query);
 #[cfg(feature = "trait_manage_state")]
 trait_mod!(manage_state);
-#[cfg(any(all(test, feature = "rstest"), feature = "trait_send_events"))]
-trait_mod!(send_events);
+#[cfg(any(all(test, feature = "rstest"), feature = "trait_write_messages"))]
+trait_mod!(write_messages);
