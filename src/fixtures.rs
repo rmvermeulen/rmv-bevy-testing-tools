@@ -55,7 +55,7 @@ mod tests {
 
     #[cfg(feature = "rstest")]
     use crate::fixtures::test_app;
-    use crate::fixtures::{minimal_test_app, TestApp};
+    use crate::fixtures::{TestApp, minimal_test_app};
 
     #[rstest]
     fn test_minimal_app_is_created(mut minimal_test_app: TestApp) {
