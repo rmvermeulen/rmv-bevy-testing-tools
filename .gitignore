@@ -1,1 +1,8 @@
 target/
+hooks/post-applypatch
+hooks/post-checkout
+hooks/post-commit
+hooks/post-merge
+hooks/post-rewrite
+hooks/pre-auto-gc
+hooks/reference-transaction
