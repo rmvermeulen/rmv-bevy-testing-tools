@@ -88,3 +88,11 @@ fn test_events(
         .is_equal_to(vec![]);
 }
 ```
+
+See also:
+
+- [basic_query](/src/traits/basic_query.md)
+- [collect_messages](/src/traits/collect_messages.md)
+- [immediate_query](/src/traits/immediate_query.md)
+- [manage_state](/src/traits/manage_state.md)
+- [write_messages](/src/traits/write_messages.md)
