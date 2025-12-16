@@ -82,40 +82,12 @@ speculoos = "^0.13.0"
 rustversion = "^1.0.22"
 
 [package.metadata.cargo-feature-combinations]
-# When at least one isolated feature set is configured, stop taking all project
-# features as a whole, and instead take them in these isolated sets. Build a
-# sub-matrix for each isolated set, then merge sub-matrices into the overall
-# feature matrix. If any two isolated sets produce an identical feature
-# combination, such combination will be included in the overall matrix only once.
-#
-# This feature is intended for projects with large number of features, sub-sets
-# of which are completely independent, and thus don’t need cross-play.
-#
-# Other configuration options are still respected.
-# isolated_feature_sets = [
-#     ["foo-a", "foo-b", "foo-c"],
-#     ["bar-a", "bar-b"],
-#     ["other-a", "other-b", "other-c"],
-# ]
-
-# Exclude groupings of features that are incompatible or do not make sense
-# exclude_feature_sets = [ ["foo", "bar"], ] # formerly "skip_feature_sets"
-
-# Exclude features from the feature combination matrix
 exclude_features = [
     "default",
     "all",
     "trait_manage_state",
-    "trait_send_messages",
+    "trait_write_messages",
     "trait_collect_messages",
     "trait_query",
+    "iter_tools",
 ]
-
-
-# In the end, always add these exact combinations to the overall feature matrix,
-# unless one is already present there.
-#
-# Non-existent features are ignored. Other configuration options are ignored.
-# include_feature_sets = [
-#     ["foo-a", "bar-a", "other-a"],
-# ] # formerly "exact_combinations"
