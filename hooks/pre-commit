@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-set -e
+#!/usr/bin/env nu
 
 cargo clippy --fix --allow-staged --all-features
 cargo fmt

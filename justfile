@@ -1,2 +1,2 @@
-test-combinations:
-    cargo-feature-combinations --silent test
+test-all *FLAGS:
+    cargo fc --silent --fail-fast --pedantic nextest run {{FLAGS}}

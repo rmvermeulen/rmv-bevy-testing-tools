@@ -1,3 +1,8 @@
-#!/usr/bin/env pwsh
+#!/usr/bin/env nu
 
-cargo test --all-features
+# first build all test binaries (and check for errors)
+just test-all --no-run
+# then run them all
+just test-all
+
+cargo test --doc --all-features
