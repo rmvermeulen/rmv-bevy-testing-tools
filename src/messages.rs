@@ -72,7 +72,7 @@ impl<E: Message + Clone + PartialEq> Plugin for MessageFilterPlugin<E> {
                     }
                 });
             }
-            MessageFilterPlugin::AnyOf(ref any_of_messages) => {
+            MessageFilterPlugin::AnyOf(any_of_messages) => {
                 app.add_systems(PostUpdate, {
                     let any_of_messages = any_of_messages.clone();
                     move |mut messages: MessageReader<E>,
