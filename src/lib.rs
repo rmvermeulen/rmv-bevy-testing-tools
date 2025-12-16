@@ -13,10 +13,6 @@ mod deprecated {
     const MINOR: u32 = VERSION[1];
     const PATCH: u32 = VERSION[2];
     const_assert_eq!(MAJOR, 0);
-
-    #[cfg(any(not(feature = "iter_tools"), feature = "iter_tools"))]
-    const_assert_eq!(MINOR, 7);
-    // TODO: remove deprecated feature `iter_tools` before 0.8
 }
 
 #[cfg(feature = "speculoos")]
@@ -64,7 +60,7 @@ mod tests {
     use rstest::rstest;
 
     #[cfg(feature = "rstest")]
-    use crate::prelude::{test_app, TestApp};
+    use crate::prelude::{TestApp, test_app};
 
     #[cfg(feature = "rstest")]
     #[rstest]

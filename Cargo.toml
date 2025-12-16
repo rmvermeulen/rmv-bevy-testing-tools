@@ -29,7 +29,6 @@ rstest = [
 # provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
 # add `ImmediateQuery::query_vec` for convenience
-iter_tools = ["itertools"]                   # remove before 0.8
 itertools = ["dep:itertools", "trait_query"]
 # provides all traits
 traits = [
@@ -89,5 +88,4 @@ exclude_features = [
     "trait_write_messages",
     "trait_collect_messages",
     "trait_query",
-    "iter_tools",
 ]
