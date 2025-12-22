@@ -12,6 +12,7 @@ repository = "https://github.com/rmvermeulen/rmv-bevy-testing-tools"
 default = []
 # everything, for convenience
 all = ["insta", "rstest", "speculoos", "itertools", "traits"]
+full = ["all"]
 # exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
 insta = ["dep:insta"]
 # provides some baseline `TestApp`-fixtures
