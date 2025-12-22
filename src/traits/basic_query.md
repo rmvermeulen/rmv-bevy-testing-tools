@@ -1,9 +1,10 @@
-# BasicQuery
+# `BasicQuery`
 
 ```rust
 use bevy::prelude::*;
 use rmv_bevy_testing_tools::prelude::*;
 use rstest::rstest;
+
 #[rstest]
 fn some_test(#[from(test_app)] mut app: TestApp) {
     // ...

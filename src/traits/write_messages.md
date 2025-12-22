@@ -1,4 +1,4 @@
-# WriteMessages
+# `WriteMessages`
 
 ```rust
 use bevy::prelude::*;

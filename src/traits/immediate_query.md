@@ -1,11 +1,13 @@
-# ImmediateQuery
+# `ImmediateQuery`
 
 ```rust
 use bevy::prelude::*;
 use rmv_bevy_testing_tools::prelude::*;
 use rstest::rstest;
+
 #[derive(Debug, Component, PartialEq, Eq, Clone, Copy)]
 struct MyComponent(i32);
+
 #[rstest]
 fn some_test(#[from(test_app)] mut app: TestApp) {
     assert_eq!(

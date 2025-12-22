@@ -21,7 +21,7 @@ pub(crate) mod assertions;
 pub(crate) mod fixtures;
 #[cfg(any(all(test, feature = "rstest"), feature = "trait_collect_messages"))]
 pub(crate) mod messages;
-#[allow(unused_imports)] // silence warning about name starting with test_
+#[allow(unused_imports)] // Silence warning about name starting with `test_`
 pub(crate) mod test_app;
 pub(crate) mod traits;
 

@@ -1,4 +1,4 @@
-# CollectMessages
+# `CollectMessages`
 
 ```rust
 use bevy::prelude::*;
