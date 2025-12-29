@@ -85,6 +85,7 @@ rustversion = "^1.0.22"
 exclude_features = [
     "default",
     "all",
+    "full",
     "trait_manage_state",
     "trait_write_messages",
     "trait_collect_messages",
