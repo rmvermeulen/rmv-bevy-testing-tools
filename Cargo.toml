@@ -44,35 +44,35 @@ trait_collect_messages = ["dep:bevy_ecs", "rstest"]
 trait_query = ["dep:bevy_ecs", "rstest"]
 
 [dependencies]
-bevy_app = { version = "^0.17", default-features = false }
-bevy_asset = { version = "^0.17", optional = true }
-bevy_derive = { version = "^0.17", default-features = false }
-bevy_ecs = { version = "^0.17", optional = true }
-bevy_image = { version = "^0.17", optional = true }
-bevy_internal = { version = "^0.17", default-features = false }
-bevy_mesh = { version = "^0.17", optional = true }
-bevy_pbr = { version = "^0.17", optional = true }
-bevy_render = { version = "^0.17", default-features = false, optional = true }
-bevy_shader = { version = "^0.17", optional = true }
-bevy_state = { version = "^0.17", optional = true }
-bevy_utils = { version = "^0.17", default-features = false }
-bevy_window = { version = "^0.17" }
-insta = { version = "^1.43", optional = true }
+bevy_app = { version = "^0.18.0-rc.1", default-features = false }
+bevy_asset = { version = "^0.18.0-rc.1", optional = true }
+bevy_derive = { version = "^0.18.0-rc.1", default-features = false }
+bevy_ecs = { version = "^0.18.0-rc.1", optional = true }
+bevy_image = { version = "^0.18.0-rc.1", optional = true }
+bevy_internal = { version = "^0.18.0-rc.1", default-features = false }
+bevy_mesh = { version = "^0.18.0-rc.1", optional = true }
+bevy_pbr = { version = "^0.18.0-rc.1", optional = true }
+bevy_render = { version = "^0.18.0-rc.1", default-features = false, optional = true }
+bevy_shader = { version = "^0.18.0-rc.1", optional = true }
+bevy_state = { version = "^0.18.0-rc.1", optional = true }
+bevy_utils = { version = "^0.18.0-rc.1", default-features = false }
+bevy_window = { version = "^0.18.0-rc.1" }
+insta = { version = "^1.45", optional = true }
 itertools = { version = "^0.14.0", optional = true }
-konst = "0.4.2"
+konst = "0.4"
 rstest = { version = "^0.26", optional = true }
 rstest_reuse = { version = "^0.7.0", optional = true }
 speculoos = { version = "^0.13.0", optional = true }
 static_assertions = { version = "1.1.0", features = ["nightly"] }
 
 [dev-dependencies]
-bevy = { version = "^0.17", default-features = false, features = [
+bevy = { version = "^0.18.0-rc.1", default-features = false, features = [
     "bevy_shader",
     "bevy_render",
     "bevy_state",
 ] }
-bevy_ecs = { version = "^0.17", default-features = false }
-insta = "1.43.2"
+bevy_ecs = { version = "^0.18.0-rc.1", default-features = false }
+insta = "1.45.1"
 rmv-bevy-testing-tools = { path = ".", features = ["rstest"] }
 rstest = "^0.26.1"
 rstest_reuse = "~0.7.0"
