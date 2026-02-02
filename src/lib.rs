@@ -64,7 +64,7 @@ mod tests {
 
     #[cfg(feature = "rstest")]
     #[rstest]
-    fn with_rstest_fixtures(#[from(test_app)] mut app: TestApp) {
+    fn with_rstest_fixtures(#[from(default_test_app)] mut app: TestApp) {
         // if it compiles, it's fine
         if skip_feature_test_body() {
             return;

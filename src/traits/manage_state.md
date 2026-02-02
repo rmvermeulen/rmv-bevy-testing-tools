@@ -10,7 +10,7 @@ use insta::assert_compact_debug_snapshot;
 enum MyState { #[default] A, B, C }
 
 // TODO: clean up these shenanigans
-#[rstest] fn some_test(#[from(test_app)] mut app: TestApp) {
+#[rstest] fn some_test(#[from(default_test_app)] mut app: TestApp) {
 # }
 # fn run_assertions(mut app: TestApp) {
     app.init_state::<MyState>();
@@ -26,5 +26,5 @@ enum MyState { #[default] A, B, C }
         app.get_next_state::<MyState>(),
         @"Some(Pending(C))");
 }
-# run_assertions(test_app((bevy_state::app::StatesPlugin), minimal_test_app(())));
+# run_assertions(default_test_app((bevy_state::app::StatesPlugin), minimal_test_app(())));
 ```

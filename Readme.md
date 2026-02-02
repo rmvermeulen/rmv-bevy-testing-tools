@@ -42,7 +42,7 @@ pub fn my_game_plugin(app: &mut App) {
 }
 
 #[rstest]
-fn test_my_system(#[from(test_app)] #[with(my_game_plugin)] app: TestApp) {
+fn test_my_system(#[from(default_test_app)] #[with(my_game_plugin)] app: TestApp) {
     for _ in 0..1000 {
         app.update();
     }

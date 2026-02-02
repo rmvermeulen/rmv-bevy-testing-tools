@@ -9,7 +9,7 @@ use rstest::rstest;
 enum MyMessage { #[default] A, B, C }
 
 #[rstest]
-fn some_test(#[from(test_app)] mut app: TestApp) {
+fn some_test(#[from(default_test_app)] mut app: TestApp) {
     app.add_event::<MyMessage>();
 
     app.write_message_default::<MyMessage>();

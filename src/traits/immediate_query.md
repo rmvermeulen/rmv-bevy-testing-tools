@@ -9,7 +9,7 @@ use rstest::rstest;
 struct MyComponent(i32);
 
 #[rstest]
-fn some_test(#[from(test_app)] mut app: TestApp) {
+fn some_test(#[from(default_test_app)] mut app: TestApp) {
     assert_eq!(
         app.query_single::<&MyComponent>().ok().copied(),
         Some(MyComponent(23)));

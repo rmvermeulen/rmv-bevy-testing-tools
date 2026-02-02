@@ -29,7 +29,7 @@ pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
 /// minimal_test_app + basic assets
 #[cfg(feature = "rstest")]
 #[fixture]
-pub fn test_app<P>(
+pub fn default_test_app<P>(
     #[default(())] plugins: impl Plugins<P>,
     #[from(minimal_test_app)] mut app: TestApp,
 ) -> TestApp {
@@ -54,19 +54,17 @@ mod tests {
     use rstest::rstest;
 
     #[cfg(feature = "rstest")]
-    use crate::fixtures::test_app;
+    use crate::fixtures::default_test_app;
     use crate::fixtures::{TestApp, minimal_test_app};
 
     #[rstest]
-    fn test_minimal_app_is_created(mut minimal_test_app: TestApp) {
-        minimal_test_app.update();
-        drop(minimal_test_app);
+    fn test_minimal_app_is_created(#[from(minimal_test_app)] mut app: TestApp) {
+        app.update();
     }
 
     #[cfg(feature = "rstest")]
     #[rstest]
-    fn test_test_app_is_created(mut test_app: TestApp) {
-        test_app.update();
-        drop(test_app);
+    fn test_default_test_app_is_created(#[from(default_test_app)] mut app: TestApp) {
+        app.update();
     }
 }

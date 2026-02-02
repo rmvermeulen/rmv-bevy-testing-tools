@@ -6,7 +6,7 @@ use rmv_bevy_testing_tools::prelude::*;
 use rstest::rstest;
 
 #[rstest]
-fn some_test(#[from(test_app)] mut app: TestApp) {
+fn some_test(#[from(default_test_app)] mut app: TestApp) {
     // ...
     if app.query_any::<&Camera, _>() {
         // an entity with Camera exists
