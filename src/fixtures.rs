@@ -8,20 +8,19 @@ use crate::test_app::TestApp;
 /// bevy's [`MinimalPlugins`] and a hidden window
 #[cfg(any(test, feature = "rstest"))]
 #[fixture]
-pub fn minimal_test_app<P>(#[default(())] plugins: impl Plugins<P>) -> TestApp {
+pub fn minimal_test_app<P>(#[default(())] additional_plugins: impl Plugins<P>) -> TestApp {
     use bevy_internal::MinimalPlugins;
 
     let mut app = App::new();
 
-    app.add_plugins((
-        MinimalPlugins,
-        WindowPlugin {
+    app.add_plugins((MinimalPlugins, additional_plugins));
+    if !app.is_plugin_added::<WindowPlugin>() {
+        app.add_plugins(WindowPlugin {
             primary_window: None,
             exit_condition: ExitCondition::DontExit,
             ..default()
-        },
-        plugins,
-    ));
+        });
+    }
 
     TestApp(app)
 }
