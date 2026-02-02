@@ -6,7 +6,7 @@ use rstest::fixture;
 use crate::test_app::TestApp;
 
 /// bevy's [`MinimalPlugins`] and a hidden window
-#[cfg(any(test, feature = "rstest"))]
+#[cfg(any(test, feature = "minimal"))]
 #[fixture]
 pub fn minimal_test_app<P>(#[default(())] additional_plugins: impl Plugins<P>) -> TestApp {
     use bevy_internal::MinimalPlugins;
@@ -29,41 +29,83 @@ pub fn minimal_test_app<P>(#[default(())] additional_plugins: impl Plugins<P>) -
 #[cfg(feature = "rstest")]
 #[fixture]
 pub fn default_test_app<P>(
-    #[default(())] plugins: impl Plugins<P>,
+    #[default(())] additional_plugins: impl Plugins<P>,
     #[from(minimal_test_app)] mut app: TestApp,
 ) -> TestApp {
-    use bevy_asset::{AssetApp, AssetPlugin};
+    use bevy_a11y::AccessibilityPlugin;
+    use bevy_asset::AssetPlugin;
     use bevy_image::ImagePlugin;
-    use bevy_mesh::MeshPlugin;
-    use bevy_pbr::{MaterialPlugin, StandardMaterial};
-    use bevy_shader::Shader;
-    app.add_plugins(AssetPlugin::default())
-        .init_asset::<Shader>()
-        .add_plugins((
-            MeshPlugin,
-            MaterialPlugin::<StandardMaterial>::default(),
-            ImagePlugin::default(),
-        ))
-        .add_plugins(plugins);
+    use bevy_input::InputPlugin;
+    use bevy_winit::WinitPlugin;
+    app.add_plugins((
+        // to load cursor images
+        (AssetPlugin::default(), ImagePlugin::default()),
+        // to deal with keyboard focus
+        InputPlugin,
+        // required for window/monitor stuff
+        AccessibilityPlugin,
+        // to run the app
+        WinitPlugin {
+            run_on_any_thread: true,
+        },
+    ))
+    // .init_asset::<Shader>()
+    // .add_plugins((
+    //     MeshPlugin,
+    //     MaterialPlugin::<StandardMaterial>::default(),
+    //     ImagePlugin::default(),
+    // ))
+    .add_plugins(additional_plugins);
     app
 }
 
 #[cfg(test)]
 mod tests {
+    use std::time::Duration;
+
+    use bevy::time::common_conditions::once_after_delay;
+    use bevy_app::{App, AppExit, Plugin, Update};
+    use bevy_ecs::{message::MessageWriter, schedule::IntoScheduleConfigs};
     use rstest::rstest;
+    use speculoos::assert_that;
 
     #[cfg(feature = "rstest")]
     use crate::fixtures::default_test_app;
     use crate::fixtures::{TestApp, minimal_test_app};
 
+    fn app_timeout_plugin(duration: Duration) -> impl Plugin {
+        fn write_app_exit(mut app_exit: MessageWriter<AppExit>) {
+            app_exit.write_default();
+        }
+        move |app: &mut App| {
+            app.add_systems(Update, write_app_exit.run_if(once_after_delay(duration)));
+        }
+    }
+
     #[rstest]
-    fn test_minimal_app_is_created(#[from(minimal_test_app)] mut app: TestApp) {
-        app.update();
+    #[async_std::test]
+    #[timeout(Duration::from_millis(40))]
+    async fn test_minimal_app_can_run(
+        #[from(minimal_test_app)]
+        #[with(app_timeout_plugin(Duration::from_millis(20)))]
+        mut app: TestApp,
+    ) {
+        let exit = app.run();
+        assert_that!(exit)
+            .named("AppExit within timeout")
+            .is_equal_to(AppExit::Success);
     }
 
     #[cfg(feature = "rstest")]
     #[rstest]
-    fn test_default_test_app_is_created(#[from(default_test_app)] mut app: TestApp) {
-        app.update();
+    #[async_std::test]
+    #[timeout(Duration::from_millis(40))]
+    async fn test_default_test_app_can_run(#[from(default_test_app)] mut app: TestApp) {
+        let exit = app
+            .add_plugins(app_timeout_plugin(Duration::from_millis(30)))
+            .run();
+        assert_that!(exit)
+            .named("AppExit within timeout")
+            .is_equal_to(AppExit::Success);
     }
 }

@@ -59,12 +59,10 @@ mod tests {
     #[allow(unused_imports)]
     use rstest::rstest;
 
-    #[cfg(feature = "rstest")]
-    use crate::prelude::*;
-
-    #[cfg(feature = "rstest")]
+    #[cfg(all(feature = "rstest", feature = "trait_collect_messages"))]
     #[rstest]
-    fn with_rstest_fixtures(#[from(default_test_app)] mut app: TestApp) {
+    #[async_std::test]
+    async fn with_rstest_fixtures() {
         // if it compiles, it's fine
         if skip_feature_test_body() {
             return;
@@ -73,7 +71,7 @@ mod tests {
         use bevy_app::AppExit;
 
         use crate::prelude::*;
-
+        let mut app = default_test_app((), minimal_test_app(()));
         app.collect_messages::<AppExit>()
             .write_message_default::<AppExit>();
     }
