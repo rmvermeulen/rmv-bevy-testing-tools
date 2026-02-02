@@ -17,7 +17,7 @@ mod deprecated {
 
 #[cfg(feature = "speculoos")]
 pub(crate) mod assertions;
-#[cfg(any(test, feature = "rstest"))]
+#[cfg(any(test, feature = "minimal"))]
 pub(crate) mod fixtures;
 #[cfg(any(all(test, feature = "rstest"), feature = "trait_collect_messages"))]
 pub(crate) mod messages;
@@ -60,7 +60,7 @@ mod tests {
     use rstest::rstest;
 
     #[cfg(feature = "rstest")]
-    use crate::prelude::{TestApp, test_app};
+    use crate::prelude::*;
 
     #[cfg(feature = "rstest")]
     #[rstest]
@@ -72,7 +72,7 @@ mod tests {
 
         use bevy_app::AppExit;
 
-        use crate::prelude::{CollectMessages, WriteMessages};
+        use crate::prelude::*;
 
         app.collect_messages::<AppExit>()
             .write_message_default::<AppExit>();
@@ -99,7 +99,7 @@ mod tests {
 
         use speculoos::assert_that;
 
-        use crate::prelude::IsContainedIn;
+        use crate::prelude::*;
 
         let items = vec![1, 2, 3];
         assert_that!(1).is_contained_in(&items);

@@ -16,7 +16,9 @@ full = ["all"]
 # exports `set_snapshot_suffix!()` to allow parameterized tests to use snapshots
 insta = ["dep:insta"]
 # provides some baseline `TestApp`-fixtures
+minimal = ["dep:rstest"]
 rstest = [
+    "minimal",
     "dep:rstest",
     "dep:rstest_reuse",
     "dep:bevy_pbr",
@@ -38,10 +40,10 @@ traits = [
     "trait_collect_messages",
     "trait_query",
 ]
-trait_manage_state = ["dep:bevy_state", "rstest"]
-trait_write_messages = ["dep:bevy_ecs", "rstest"]
-trait_collect_messages = ["dep:bevy_ecs", "rstest"]
-trait_query = ["dep:bevy_ecs", "rstest"]
+trait_manage_state = ["dep:bevy_state", "minimal"]
+trait_write_messages = ["dep:bevy_ecs", "minimal"]
+trait_collect_messages = ["dep:bevy_ecs", "minimal"]
+trait_query = ["dep:bevy_ecs", "minimal"]
 
 [dependencies]
 bevy_app = { version = "^0.18.0-rc.1", default-features = false }
@@ -82,6 +84,7 @@ speculoos = "^0.13.0"
 rustversion = "^1.0.22"
 
 [package.metadata.cargo-feature-combinations]
+exclude_feature_sets = [["minimal", "rstest"]]
 exclude_features = [
     "default",
     "all",
