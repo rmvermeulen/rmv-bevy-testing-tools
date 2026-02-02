@@ -1,6 +1,5 @@
 use bevy_app::{App, AppExit};
 use bevy_derive::{Deref, DerefMut};
-use bevy_utils::default;
 
 // TODO: remove, impl traits on bevy app directly?
 #[derive(Debug, Deref, DerefMut)]
