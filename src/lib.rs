@@ -6,8 +6,10 @@
 mod deprecated {
     use konst::{iter, result, string};
     use static_assertions::const_assert_eq;
+    const VERSION_STR: [&str; 1] = iter::collect_const!(&str =>
+        string::split(env!("CARGO_PKG_VERSION"), "-"),take(1));
     const VERSION: [u32; 3] = iter::collect_const!(u32 =>
-        string::split(env!("CARGO_PKG_VERSION"), "."),
+        string::split(VERSION_STR[0], "."),
         map(|s| result::unwrap!(u32::from_str_radix(s, 10))));
     const MAJOR: u32 = VERSION[0];
     const MINOR: u32 = VERSION[1];
