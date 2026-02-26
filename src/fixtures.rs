@@ -21,7 +21,6 @@ pub fn minimal_test_app<P>(#[default(())] additional_plugins: impl Plugins<P>) -
             ..default()
         });
     }
-
     TestApp(app)
 }
 
@@ -49,12 +48,6 @@ pub fn default_test_app<P>(
             run_on_any_thread: true,
         },
     ))
-    // .init_asset::<Shader>()
-    // .add_plugins((
-    //     MeshPlugin,
-    //     MaterialPlugin::<StandardMaterial>::default(),
-    //     ImagePlugin::default(),
-    // ))
     .add_plugins(additional_plugins);
     app
 }
