@@ -31,24 +31,28 @@ pub fn default_test_app<P>(
     #[default(())] additional_plugins: impl Plugins<P>,
     #[from(minimal_test_app)] mut app: TestApp,
 ) -> TestApp {
-    use bevy_a11y::AccessibilityPlugin;
-    use bevy_asset::AssetPlugin;
-    use bevy_image::ImagePlugin;
-    use bevy_input::InputPlugin;
-    use bevy_winit::WinitPlugin;
-    app.add_plugins((
-        // to load cursor images
-        (AssetPlugin::default(), ImagePlugin::default()),
-        // to deal with keyboard focus
-        InputPlugin,
-        // required for window/monitor stuff
-        AccessibilityPlugin,
-        // to run the app
-        WinitPlugin {
-            run_on_any_thread: true,
-        },
-    ))
-    .add_plugins(additional_plugins);
+    if std::env::var("DISPLAY").is_ok() {
+        use bevy_a11y::AccessibilityPlugin;
+        use bevy_asset::AssetPlugin;
+        use bevy_image::ImagePlugin;
+        use bevy_input::InputPlugin;
+        use bevy_winit::WinitPlugin;
+        app.add_plugins((
+            // to load cursor images
+            (AssetPlugin::default(), ImagePlugin::default()),
+            // to deal with keyboard focus
+            InputPlugin,
+            // required for window/monitor stuff
+            AccessibilityPlugin,
+            // to run the app
+            WinitPlugin {
+                run_on_any_thread: true,
+            },
+        ))
+        .add_plugins(additional_plugins);
+    } else {
+        eprintln!("no DISPLAY, skipping...");
+    }
     app
 }
 
