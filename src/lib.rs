@@ -105,21 +105,6 @@ mod tests {
         assert_that!(1).is_contained_in(&items);
     }
 
-    #[ignore = "fix immediate_query.rs"]
-    #[cfg(feature = "itertools")]
-    #[rstest]
-    fn can_access_query_vec() {
-        // if it compiles, it's fine
-        if skip_feature_test_body() {
-            return;
-        }
-
-        // use bevy_app::App;
-        // use bevy_ecs::entity::Entity;
-        // use crate::{test_app::TestApp, traits::ImmediateQuery};
-        // TestApp(App::new()).query_vec::<Entity>();
-    }
-
     #[allow(dead_code)]
     fn skip_feature_test_body() -> bool {
         // basically return true always but don't let the compiler know

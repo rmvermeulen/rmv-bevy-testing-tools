@@ -13,9 +13,7 @@ This crate comes with two pre-defined test-apps (see [`./src/fixtures.rs`]):
 
 The traits:
 
-- [basic_query](/src/traits/basic_query.md)
 - [collect_messages](/src/traits/collect_messages.md)
-- [immediate_query](/src/traits/immediate_query.md)
 - [manage_state](/src/traits/manage_state.md)
 - [write_messages](/src/traits/write_messages.md)
 
@@ -42,7 +40,11 @@ pub fn my_game_plugin(app: &mut App) {
 }
 
 #[rstest]
-fn test_my_system(#[from(default_test_app)] #[with(my_game_plugin)] app: TestApp) {
+fn test_my_system(
+    #[from(default_test_app)]
+    #[with(my_game_plugin)]
+    app: TestApp
+) {
     for _ in 0..1000 {
         app.update();
     }

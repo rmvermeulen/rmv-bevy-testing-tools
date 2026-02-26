@@ -32,19 +32,15 @@ rstest = [
 ]
 # provides `IsContainedIn::is_contained_in` extension
 speculoos = ["dep:speculoos"]
-# add `ImmediateQuery::query_vec` for convenience
-itertools = ["dep:itertools", "trait_query"]
 # provides all traits
 traits = [
     "trait_manage_state",
     "trait_write_messages",
     "trait_collect_messages",
-    "trait_query",
 ]
 trait_manage_state = ["dep:bevy_state", "minimal"]
 trait_write_messages = ["dep:bevy_ecs", "minimal"]
 trait_collect_messages = ["dep:bevy_ecs", "minimal"]
-trait_query = ["dep:bevy_ecs", "minimal"]
 
 [dependencies]
 bevy_a11y = { version = "^0.18.0-rc.1", default-features = false, optional = true }
