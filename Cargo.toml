@@ -91,13 +91,5 @@ speculoos = "^0.13.0"
 rustversion = "^1.0.22"
 
 [package.metadata.cargo-feature-combinations]
+isolated_feature_sets = [[], ["full"], ["traits", "insta", "speculoos"]]
 exclude_feature_sets = [["minimal", "rstest"]]
-exclude_features = [
-    "default",
-    "all",
-    "full",
-    "trait_manage_state",
-    "trait_write_messages",
-    "trait_collect_messages",
-    "trait_query",
-]
