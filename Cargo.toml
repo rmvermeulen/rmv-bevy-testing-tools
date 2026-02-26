@@ -43,25 +43,23 @@ trait_write_messages = ["dep:bevy_ecs", "minimal"]
 trait_collect_messages = ["dep:bevy_ecs", "minimal"]
 
 [dependencies]
-bevy_a11y = { version = "^0.18.0-rc.1", default-features = false, optional = true }
-bevy_app = { version = "^0.18.0-rc.1", default-features = false }
-bevy_asset = { version = "^0.18.0-rc.1", optional = true }
-bevy_derive = { version = "^0.18.0-rc.1", default-features = false }
-bevy_ecs = { version = "^0.18.0-rc.1", optional = true }
-bevy_image = { version = "^0.18.0-rc.1", optional = true }
-bevy_input = { version = "^0.18.0-rc.1", optional = true, features = [
-    "gamepad",
-] }
-bevy_internal = { version = "^0.18.0-rc.1", default-features = false }
-bevy_mesh = { version = "^0.18.0-rc.1", optional = true }
-bevy_pbr = { version = "^0.18.0-rc.1", optional = true }
-bevy_render = { version = "^0.18.0-rc.1", default-features = false, optional = true }
-bevy_shader = { version = "^0.18.0-rc.1", optional = true }
-bevy_state = { version = "^0.18.0-rc.1", optional = true }
-bevy_utils = { version = "^0.18.0-rc.1", default-features = false }
-bevy_window = { version = "^0.18.0-rc.1" }
-bevy_winit = { version = "^0.18.0-rc.1", optional = true, features = ["x11"] }
-insta = { version = "^1.45", optional = true }
+bevy_a11y = { version = "^0.18.0", default-features = false, optional = true }
+bevy_app = { version = "^0.18.0", default-features = false }
+bevy_asset = { version = "^0.18.0", optional = true }
+bevy_derive = { version = "^0.18.0", default-features = false }
+bevy_ecs = { version = "^0.18.0", optional = true }
+bevy_image = { version = "^0.18.0", optional = true }
+bevy_input = { version = "^0.18.0", optional = true, features = ["gamepad"] }
+bevy_internal = { version = "^0.18.0", default-features = false }
+bevy_mesh = { version = "^0.18.0", optional = true }
+bevy_pbr = { version = "^0.18.0", optional = true }
+bevy_render = { version = "^0.18.0", default-features = false, optional = true }
+bevy_shader = { version = "^0.18.0", optional = true }
+bevy_state = { version = "^0.18.0", optional = true }
+bevy_utils = { version = "^0.18.0", default-features = false }
+bevy_window = { version = "^0.18.0" }
+bevy_winit = { version = "^0.18.0", optional = true, features = ["x11"] }
+insta = { version = "^1.46", optional = true }
 itertools = { version = "^0.14.0", optional = true }
 konst = "0.4"
 rstest = { version = "^0.26", optional = true }
@@ -71,13 +69,13 @@ static_assertions = { version = "1.1.0", features = ["nightly"] }
 
 [dev-dependencies]
 async-std = { version = "1.13.2", features = ["attributes"] }
-bevy = { version = "^0.18.0-rc.1", default-features = false, features = [
+bevy = { version = "^0.18.0", default-features = false, features = [
     "bevy_shader",
     "bevy_render",
     "bevy_state",
 ] }
-bevy_ecs = { version = "^0.18.0-rc.1", default-features = false }
-insta = "1.45.1"
+bevy_ecs = { version = "^0.18.0", default-features = false }
+insta = "1.46.3"
 rmv-bevy-testing-tools = { path = ".", features = ["rstest"] }
 rstest = "^0.26.1"
 rstest_reuse = "~0.7.0"
