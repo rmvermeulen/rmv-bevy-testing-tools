@@ -1,5 +1,5 @@
 #[allow(unused_macros)]
-macro_rules! trait_mod {
+macro_rules! transparent_module {
     ($name:ident) => {
         pub mod $name;
         pub use $name::*;
@@ -7,12 +7,12 @@ macro_rules! trait_mod {
 }
 
 #[cfg(feature = "trait_query")]
-trait_mod!(basic_query);
+transparent_module!(basic_query);
 #[cfg(any(all(test, feature = "rstest"), feature = "trait_collect_messages"))]
-trait_mod!(collect_messages);
+transparent_module!(collect_messages);
 #[cfg(feature = "trait_query")]
-trait_mod!(immediate_query);
+transparent_module!(immediate_query);
 #[cfg(feature = "trait_manage_state")]
-trait_mod!(manage_state);
+transparent_module!(manage_state);
 #[cfg(any(all(test, feature = "rstest"), feature = "trait_write_messages"))]
-trait_mod!(write_messages);
+transparent_module!(write_messages);
