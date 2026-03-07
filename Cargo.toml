@@ -87,3 +87,6 @@ rustversion = "^1.0.22"
 [package.metadata.cargo-feature-combinations]
 isolated_feature_sets = [[], ["full"], ["traits", "insta", "speculoos"]]
 exclude_feature_sets = [["minimal", "rstest"]]
+
+[package.metadata.docs.rs]
+all-features = true

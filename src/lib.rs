@@ -1,3 +1,4 @@
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![cfg_attr(coverage_nightly, feature(coverage_attribute))]
 
 // TODO: setup tags for different versions of bevy
