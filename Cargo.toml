@@ -60,7 +60,7 @@ bevy_utils = { version = "^0.18.0", default-features = false }
 bevy_window = { version = "^0.18.0" }
 bevy_winit = { version = "^0.18.0", optional = true, features = ["x11"] }
 insta = { version = "^1.48", optional = true }
-itertools = { version = "^0.14.0", optional = true }
+itertools = { version = "^0.15.0", optional = true }
 konst = "0.4"
 rstest = { version = "^0.26", optional = true }
 rstest_reuse = { version = "^0.7.0", optional = true }
