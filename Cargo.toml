@@ -59,7 +59,7 @@ bevy_state = { version = "^0.18.0", optional = true }
 bevy_utils = { version = "^0.18.0", default-features = false }
 bevy_window = { version = "^0.18.0" }
 bevy_winit = { version = "^0.18.0", optional = true, features = ["x11"] }
-insta = { version = "^1.46", optional = true }
+insta = { version = "^1.48", optional = true }
 itertools = { version = "^0.14.0", optional = true }
 konst = "0.4"
 rstest = { version = "^0.26", optional = true }
@@ -75,7 +75,7 @@ bevy = { version = "^0.18.0", default-features = false, features = [
     "bevy_state",
 ] }
 bevy_ecs = { version = "^0.18.0", default-features = false }
-insta = "1.46.3"
+insta = "1.48.0"
 rmv-bevy-testing-tools = { path = ".", features = ["rstest"] }
 rstest = "^0.26.1"
 rstest_reuse = "~0.7.0"
